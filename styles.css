@@ -549,7 +549,8 @@ pre {
 /* Instructions Section */
 #quiz-instructions {
   max-width: 500px;
-  margin: 0 auto;  /* Ensures horizontal centering if not using flex */
+  margin: 0 auto;
+  /* Ensures horizontal centering if not using flex */
   background: #e8f5ff;
   padding: 15px;
   border-radius: 8px;

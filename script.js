@@ -13,23 +13,23 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // sticky nav 
-   const navWrapper = document.getElementById("navWrapper");
+  const navWrapper = document.getElementById("navWrapper");
   const trigger = document.querySelector(".sticky-trigger");
 
   const observer = new IntersectionObserver(
-      (entries) => {
-    entries.forEach((entry) => {
-      if (!entry.isIntersecting) {
-        navWrapper.classList.add("sticky-nav-wrapper");
-      } else {
-        navWrapper.classList.remove("sticky-nav-wrapper");
-      }
-    });
-  },
-  {
-    rootMargin: "-60px 0px 0px 0px", // triggers earlier, avoids flicker
-    threshold: 0
-  }
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) {
+          navWrapper.classList.add("sticky-nav-wrapper");
+        } else {
+          navWrapper.classList.remove("sticky-nav-wrapper");
+        }
+      });
+    },
+    {
+      rootMargin: "-60px 0px 0px 0px", // triggers earlier, avoids flicker
+      threshold: 0
+    }
   );
 
   observer.observe(trigger);
@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // back to top logic
   const backToTopBtn = document.getElementById("backToTop");
 
-  window.onscroll = function() {
+  window.onscroll = function () {
     if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
       backToTopBtn.style.display = "block";
     } else {
@@ -45,14 +45,14 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   };
 
-  backToTopBtn.onclick = function() {
+  backToTopBtn.onclick = function () {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   document.getElementById("start-quiz-btn").addEventListener("click", () => {
-  document.getElementById("quiz-instructions").style.display = "none";
-  document.getElementById("quiz-content").style.display = "block";
-});
+    document.getElementById("quiz-instructions").style.display = "none";
+    document.getElementById("quiz-content").style.display = "block";
+  });
 });
 
 // Object to store references to different topic sections by their IDs
@@ -70,13 +70,13 @@ let topicElements = {
 
 let currentTopic = "aim"; // Track the currently displayed topic
 function switchContent(topic) {
-    if (topic === currentTopic) {
-        return; // Prevent unnecessary updates if the same topic is clicked again
-    }
+  if (topic === currentTopic) {
+    return; // Prevent unnecessary updates if the same topic is clicked again
+  }
 
-    topicElements[currentTopic].style.display = 'none'; // Hide the previous topic
-    topicElements[topic].style.display = 'block'; // Show the selected topic
-    currentTopic = topic; // Update the current topic
+  topicElements[currentTopic].style.display = 'none'; // Hide the previous topic
+  topicElements[topic].style.display = 'block'; // Show the selected topic
+  currentTopic = topic; // Update the current topic
 }
 
 // Generalized function to toggle language-based code blocks

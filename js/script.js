@@ -127,13 +127,23 @@ document.querySelectorAll(".copy-button").forEach((button) => {
 // Quiz Logic
 const questions = [
   {
-    question: " Q1) Which of the following is/are valid searching algorithms?",
-    choices: ["Linear Search", "Bubble Sort", "Binary Search", "Quick Sort"],
-    correctAnswers: [0, 2]
+    question: " Q1) Which strategy allocates the smallest sufficient block to a process?",
+    choices: ["First Fit", "Best Fit", "Worst Fit", "None"],
+    correctAnswers: [1]
   },
   {
-    question: " Q2) What is/are the time complexity of linear search?",
-    choices: ["O(log n)", "O(n)", "O(n^2)", "O(1)"],
+    question: " Q2) What is external fragmentation?",
+    choices: ["Wasted space within an allocated block ", "Free Memory Broken into small non-contiguous memory blocks", "A CPU scheduling issue", "A page replacement issue"],
+    correctAnswers: [1]
+  },
+  {
+    question: " Q3) Which allocation strategy is generally fastest to execute?",
+    choices: ["Best Fit", "Worst Fit", "First Fit", "All are equal"],
+    correctAnswers: [2]
+  },
+  {
+    question: " Q4) What technique consolidates scattered free memory blocks into one large block?",
+    choices: ["Paging", "Compaction", "Swapping", "Segmentation"],
     correctAnswers: [1]
   },
 ];

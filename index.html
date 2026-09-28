@@ -8,7 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Add your V-Lab Title here</title>
   <link rel="icon" href="images/vlab-logo.png" type="image/x-icon" />
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="css/styles.css" />
   <link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/base16/harmonic16-dark.min.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
@@ -45,7 +45,7 @@
 
 
   <div class="yourvlabtitle">
-    <h1>your vlab title</h1>
+    <h1>Contiguous Memory Allocation</h1>
   </div>
 
   <div class="pageview">
@@ -104,67 +104,210 @@
       <div class="container" id="aim">
         <div class="title">Aim</div>
         <div class="content">
-          <p>The aim of your Virtual lab</p>
+          <p>To Simulate and Analyze Contiguous Memory Allocation Techniques—First Fit, Best Fit and Worst Fit in a
+            Fixed Partitioned Memory Environment and to evaluate their impact on Internal and External Fragmentation.
+          </p>
         </div>
       </div>
+
 
       <!-- Theory & Applications -->
       <div class="container" id="theory">
         <div class="title">Theory & Applications</div>
         <div class="content">
           <p>
-            This section covers the fundamental theories and applications of
-            the concept.
+            <strong>Memory management</strong> is responsible for allocating and deallocating memory space to processes
+            efficiently.
           </p>
 
-          <span>Key Concepts</span>
+          <div>
+            <p>
+              <strong>The operating system</strong> maintains a list of free memory blocks (holes) and allocated blocks,
+              and must decide which free block to assign when a new process arrives using allocation strategies such as
+              First Fit, Best Fit and Worst Fit.
+            </p>
+            <img src="images/memory_management_01.png" alt="Memory Management Strategies" style="margin: 10px;">
+          </div>
+          <br>
+
+          <p>
+            The main memory is a combination of two main portions - one for the operating system and the other for the
+            user program.
+          </p>
+          <img src="images/main-memory-portions-01.png" alt="Main Memory Portions">
+
+          <!-- Grouped Comparison Section -->
+          <div class="sub-section"
+            style="margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-radius: 8px;">
+            <p><strong>Contiguous Memory Allocation:</strong> Contiguous memory allocation is basically a method in
+              which a single contiguous section/part of memory is allocated to a process or file needing it.</p>
+            <img src="images/contiguous-memory-01.png" alt="Contiguous Memory Illustration"
+              style="margin-bottom: 15px;">
+
+            <p><strong>Non-Contiguous Memory Allocation:</strong> Non-Contiguous memory allocation is basically a method
+              on the contrary to the contiguous allocation method, allocating the memory space present in different
+              locations to the process as per its requirements.</p>
+            <img src="images/non-contiguous-01.png" alt="Non-Contiguous Memory Illustration">
+
+            <h3 style="margin-top: 20px; font-size: 1.1em;">Difference Between Contiguous and Non-Contiguous Memory
+              Allocation</h3>
+            <div class="table-container" style="overflow-x:auto; margin-top: 10px;">
+              <table style="width: 100%; border-collapse: collapse; font-family: sans-serif;">
+                <thead>
+                  <tr style="background-color: #e2e2e2; text-align: left;">
+                    <th style="border: 1px solid #ccc; padding: 12px;">S.No.</th>
+                    <th style="border: 1px solid #ccc; padding: 12px;">Contiguous Memory Allocation</th>
+                    <th style="border: 1px solid #ccc; padding: 12px;">Non-Contiguous Memory Allocation</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td style="border: 1px solid #ccc; padding: 12px; font-weight: bold;">1</td>
+                    <td style="border: 1px solid #ccc; padding: 12px;">Allocates a single, consecutive block of memory
+                      to a process.</td>
+                    <td style="border: 1px solid #ccc; padding: 12px;">Allocates separate, scattered blocks of memory to
+                      a single process.</td>
+                  </tr>
+                  <tr>
+                    <td style="border: 1px solid #ccc; padding: 12px; font-weight: bold;">2</td>
+                    <td style="border: 1px solid #ccc; padding: 12px;">Faster execution time and easier for the
+                      Operating System to control.</td>
+                    <td style="border: 1px solid #ccc; padding: 12px;">Slower execution time and highly complex for the
+                      Operating System to manage.</td>
+                  </tr>
+                  <tr>
+                    <td style="border: 1px solid #ccc; padding: 12px; font-weight: bold;">3</td>
+                    <td style="border: 1px solid #ccc; padding: 12px;">Minimal overhead due to simple and limited
+                      address translations.</td>
+                    <td style="border: 1px solid #ccc; padding: 12px;">High overhead because the system must perform
+                      numerous address translations.</td>
+                  </tr>
+                  <tr>
+                    <td style="border: 1px solid #ccc; padding: 12px; font-weight: bold;">4</td>
+                    <td style="border: 1px solid #ccc; padding: 12px;">Implemented using Fixed (Static) Partitioning or
+                      Dynamic Partitioning.</td>
+                    <td style="border: 1px solid #ccc; padding: 12px;">Implemented using techniques like Paging and
+                      Segmentation.</td>
+                  </tr>
+                  <tr>
+                    <td style="border: 1px solid #ccc; padding: 12px; font-weight: bold;">5</td>
+                    <td style="border: 1px solid #ccc; padding: 12px;">Easily visualized and implemented in code using
+                      Arrays.</td>
+                    <td style="border: 1px solid #ccc; padding: 12px;">Typically implemented using complex structures
+                      like Linked Lists.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <h3 style="margin-top: 25px;">Key Concepts</h3>
           <ul>
-            <li>Fundamentals of Data Structures</li>
             <li>
-              Algorithms and Their Applications
+              <strong>Fixed Partitioning (Static Allocation):</strong> The RAM is divided into fixed-size blocks before
+              execution. A process is allocated to a single block and no block can hold more than one process.
               <ul>
-                <li>Sorting Algorithms</li>
-                <li>Searching Algorithms</li>
+                <li><strong>Degree of Multiprogramming:</strong> Strictly limited by the number of partitions created.
+                </li>
+                <li><strong>Process Size Limit:</strong> A process size cannot exceed the size of the single largest
+                  partition in the memory map.</li>
+                <li><strong>Data Structure:</strong> Managed using a static Partition Description Table (PDT) array to
+                  track the allocated or free status of each block.</li>
               </ul>
             </li>
-            <li>Time Complexity Analysis</li>
+            <li>
+              <strong>Allocation Algorithms</strong>
+              <ul>
+                <li><strong>First Fit:</strong> Allocates the first available partition that is large enough to hold the
+                  process. It is fast and requires minimal searching, but often leaves larger blocks heavily fragmented
+                  early on.</li>
+                <li><strong>Best Fit:</strong> Searches the entire list of partitions and allocates the smallest
+                  available partition that fits the process. It minimizes wasted space within the chosen block but
+                  requires more CPU time to search.</li>
+                <li><strong>Worst Fit:</strong> Allocates the largest available partition. The logic assumes the
+                  leftover space will be large enough to hold another future process though it quickly degrades overall
+                  memory utilization.</li>
+              </ul>
+              <img src="images/memory-algo-compare_01.png" alt="First, Best and Worst Fit Comparison"
+                style="margin-top: 10px;">
+            </li>
+            <li>
+              <strong>Fragmentation Types</strong>
+              <ul>
+                <li><strong>Internal Fragmentation:</strong> Occurs when a process is allocated a memory block larger
+                  than its requested size. The leftover space strictly inside that specific block is permanently
+                  wasted.<br>
+                  <img src="./images/internal_fragmentation_01.png"
+                    alt="Diagram showing a 212KB process inside a 500KB block with 288KB visually highlighted as wasted internal fragmentation"
+                    style="max-width: 100%; height: auto; margin: 15px 0; border: 1px solid #ccc;">
+                </li>
+                <li><strong>External Fragmentation:</strong> Occurs when the total free memory across the system is
+                  sufficient to satisfy a process request, but the memory is not contiguous (it is scattered across
+                  multiple blocks), causing the OS to reject the process.<br>
+                  <img src="./images/external_fragmentation_01.png"
+                    alt="Diagram showing a 350KB process being rejected because the 450KB total free space is split into two separate blocks"
+                    style="max-width: 100%; height: auto; margin: 15px 0; border: 1px solid #ccc;">
+                </li>
+              </ul>
+            </li>
           </ul>
 
-          <span>Applications in Real World</span>
+          <h3 style="margin-top: 25px;">Applications in the Real World</h3>
           <ol>
-            <li>Application of Sorting Algorithms in Search Engines</li>
-            <li>Machine Learning Algorithms in Predictive Analytics</li>
-            <li>Data Structures in Web Development</li>
+            <li><strong>Legacy Mainframe Operating Systems:</strong> IBM's OS/360 utilized fixed partitioning (MFT -
+              Multiprogramming with a Fixed number of Tasks) for early batch processing environments.</li>
+            <li><strong>Embedded Systems:</strong> Hardware with strict, unchanging memory constraints often uses fixed
+              memory mapping to guarantee critical system processes always have reserved execution space without dynamic
+              overhead.</li>
+            <li><strong>Custom Software Memory Allocators:</strong> High-performance C++ applications and game engines
+              often bypass the OS to build custom memory pools utilizing variations of First/Best fit to manage memory
+              manually.</li>
           </ol>
 
         </div>
       </div>
+
 
       <!-- Procedure -->
       <div class="container" id="procedure">
         <div class="title">Procedure</div>
         <div class="content">
           <p>
-            This section provides the steps and procedure for implementing the
-            concept discussed above.
+            This section provides the step-by-step instructions for executing the Fixed Partitioning Memory Management
+            simulation and analyzing fragmentation.
           </p>
 
-          <span>Steps for Sorting Algorithms</span>
+          <span>Steps for Initial Setup</span>
           <ol>
-            <li>Choose the appropriate sorting algorithm based on data</li>
-            <li>Apply the sorting algorithm to the dataset</li>
-            <li>Analyze the time complexity and performance</li>
+            <li>Navigate to the <strong>Simulation</strong> tab from the left sidebar menu.</li>
+            <li>Observe the initial state of the Dynamic Memory Map on the right side of the screen.</li>
+            <li>Note the predefined sizes of the five fixed memory partitions (e.g., 100KB, 500KB, 200KB, 300KB, 600KB)
+              and the total system memory.</li>
           </ol>
 
-          <span>Steps for Implementing Search Algorithms</span>
+          <span>Steps for Executing Allocation Algorithms</span>
           <ul>
-            <li>Identify the data structure to be used</li>
-            <li>
-              Choose the best search algorithm (e.g., Linear Search, Binary
-              Search)
-            </li>
-            <li>Test the algorithm on various datasets</li>
+            <li><strong>Enter Process Details:</strong> In the left control panel, input a Process ID (e.g., "P1") and a
+              Requested Size in KB (e.g., "212").</li>
+            <li><strong>Select Algorithm:</strong> Choose <em>First Fit</em>, <em>Best Fit</em> or <em>Worst Fit</em>
+              from the dropdown menu.</li>
+            <li><strong>Allocate:</strong> Click the "Allocate Process" button to dispatch the process into the memory
+              map.</li>
           </ul>
+
+          <span>Steps for Analyzing Fragmentation</span>
+          <ol>
+            <li>Observe the visual update in the memory map to identify exactly which block the algorithm selected based
+              on its search logic.</li>
+            <li>Review the allocated block to calculate the <strong>Internal Fragmentation</strong> (the visually
+              distinct, wasted space left inside the assigned partition).</li>
+            <li>Continue adding new processes of varying sizes until an allocation is rejected.</li>
+            <li>Identify if the rejection is due to <strong>External Fragmentation</strong> (check if the combined total
+              free space is sufficient, but no single contiguous block is large enough to hold the process).</li>
+            <li>Click the <strong>Reset Memory</strong> button, select a different algorithm from the dropdown and
+              input the exact same sequence of processes to compare efficiency and memory waste.</li>
+          </ol>
+
         </div>
       </div>
 
@@ -292,7 +435,7 @@
       menu.classList.toggle("show");
     }
   </script>
-  <script src="script.js"></script>
+  <script src="js/script.js"></script>
 </body>
 
 </html>

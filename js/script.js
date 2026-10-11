@@ -125,27 +125,73 @@ document.querySelectorAll(".copy-button").forEach((button) => {
 });
 
 // Quiz Logic
+
 const questions = [
   {
-    question: " Q1) Which strategy allocates the smallest sufficient block to a process?",
+    question: "Q1) Which strategy allocates the smallest sufficient block to a process?",
     choices: ["First Fit", "Best Fit", "Worst Fit", "None"],
     correctAnswers: [1]
   },
   {
-    question: " Q2) What is external fragmentation?",
-    choices: ["Wasted space within an allocated block ", "Free Memory Broken into small non-contiguous memory blocks", "A CPU scheduling issue", "A page replacement issue"],
+    question: "Q2) What is external fragmentation?",
+    choices: [
+      "Wasted space within an allocated block",
+      "Free memory divided into small non-contiguous holes",
+      "A CPU scheduling issue",
+      "A page replacement issue"
+    ],
     correctAnswers: [1]
   },
   {
-    question: " Q3) Which allocation strategy is generally fastest to execute?",
-    choices: ["Best Fit", "Worst Fit", "First Fit", "All are equal"],
+    question: "Q3) Which allocation strategy generally searches from the beginning and selects the first suitable block?",
+    choices: ["Best Fit", "Worst Fit", "First Fit", "None"],
     correctAnswers: [2]
   },
   {
-    question: " Q4) What technique consolidates scattered free memory blocks into one large block?",
+    question: "Q4) What technique combines scattered free memory holes into one large block?",
     choices: ["Paging", "Compaction", "Swapping", "Segmentation"],
     correctAnswers: [1]
   },
+  {
+    question: "Q5) Which strategy selects the largest available block that can accommodate a process?",
+    choices: ["First Fit", "Best Fit", "Worst Fit", "Round Robin"],
+    correctAnswers: [2]
+  },
+  {
+    question: "Q6) What is internal fragmentation?",
+    choices: [
+      "Free memory between allocated blocks",
+      "Unused space inside an allocated memory partition",
+      "Memory used by the operating system",
+      "A process waiting for the CPU"
+    ],
+    correctAnswers: [1]
+  },
+  {
+    question: "Q7) In fixed partitioning, how many processes can occupy one partition at a time?",
+    choices: ["One process", "Two processes", "Any number of processes", "No process"],
+    correctAnswers: [0]
+  },
+  {
+    question: "Q8) A process requires 180 KB. Which partition is the smallest suitable choice for Best Fit?",
+    choices: ["150 KB", "200 KB", "300 KB", "100 KB"],
+    correctAnswers: [1]
+  },
+  {
+    question: "Q9) A 250 KB process is allocated to a 400 KB partition. What is the internal fragmentation?",
+    choices: ["250 KB", "400 KB", "150 KB", "650 KB"],
+    correctAnswers: [2]
+  },
+  {
+    question: "Q10) Which statement about First Fit is correct?",
+    choices: [
+      "It always selects the largest block",
+      "It selects the smallest suitable block",
+      "It selects the first free block large enough for the process",
+      "It never causes internal fragmentation"
+    ],
+    correctAnswers: [2]
+  }
 ];
 
 let currentQuestionIndex = 0;

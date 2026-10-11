@@ -1,10 +1,12 @@
+
 /* =====================================================
    MEMORY ALLOCATION SIMULATOR
-   Dark navy + neon theme
+   Light theme | Existing functionality preserved
    ===================================================== */
 
 #practice {
   box-sizing: border-box;
+  background: transparent;
 }
 
 #practice .memory-simulator,
@@ -13,45 +15,42 @@
 }
 
 #practice .memory-simulator {
-  --sim-bg: #06152f;
-  --sim-panel: #071a38;
-  --sim-border: #24559a;
-  --sim-text: #f2f6ff;
-  --sim-muted: #b9c9e9;
-  --sim-purple: #a987ff;
-  --sim-blue: #12aaff;
-  --sim-green: #00d69a;
-  --sim-yellow: #ffd65a;
+  --sim-bg: #f4f8ff;
+  --sim-panel: #ffffff;
+  --sim-border: #c9ddff;
+  --sim-text: #10204a;
+  --sim-muted: #52678f;
+  --sim-purple: #8651e8;
+  --sim-blue: #267cf4;
+  --sim-green: #00a980;
+  --sim-yellow: #f4c842;
 
   width: 100%;
   max-width: 1600px;
   margin: 0 auto;
   padding: 12px;
+  border: 1px solid #d8e7ff;
   border-radius: 18px;
-  background:
-    radial-gradient(ellipse at top, #132a61 0%, transparent 48%),
-    linear-gradient(135deg, #07132d, #020b20);
+  background: linear-gradient(135deg, #f8fbff, #edf5ff);
   color: var(--sim-text);
   font-family: Arial, Helvetica, sans-serif;
   text-align: left;
 }
 
-/* Header */
-
 #practice .sim-header {
   text-align: center;
-  padding: 15px 12px;
+  padding: 18px 12px;
   margin-bottom: 14px;
-  border: 1px solid #6241ff;
-  border-radius: 18px;
-  background: linear-gradient(115deg, #07122f, #0a1c43);
-  box-shadow: 0 0 20px rgba(91, 65, 255, 0.15);
+  border: 1px solid #b9d7ff;
+  border-radius: 15px;
+  background: linear-gradient(120deg, #ffffff, #e8f3ff);
+  box-shadow: 0 4px 14px rgba(38, 124, 244, 0.08);
 }
 
 #practice .sim-chip {
   display: inline-block;
   margin-right: 12px;
-  color: #20c7ff;
+  color: #267cf4;
   font-size: 2rem;
   vertical-align: middle;
 }
@@ -61,13 +60,14 @@
   margin: 0;
   font-size: clamp(1.4rem, 2.5vw, 2.3rem);
   font-weight: 800;
-  color: #ffffff;
+  color: #14275a;
 }
 
 #practice .sim-header p {
   margin: 7px 0 0;
-  color: #d4e3ff;
+  color: #52678f;
   font-size: 0.95rem;
+  line-height: 1.5;
 }
 
 /* Shared panels */
@@ -75,10 +75,10 @@
 #practice .sim-panel {
   min-width: 0;
   border: 1px solid var(--sim-border);
-  border-radius: 15px;
+  border-radius: 14px;
   padding: 17px;
-  background: linear-gradient(145deg, #071a39, #06132d);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.025);
+  background: #ffffff;
+  box-shadow: 0 3px 12px rgba(39, 91, 160, 0.06);
 }
 
 #practice .panel-heading {
@@ -90,32 +90,35 @@
 
 #practice .panel-heading h3 {
   margin: 0;
-  color: #f5f7ff;
+  color: #14275a;
   font-size: 1.02rem;
-  line-height: 1.35;
+  line-height: 1.4;
 }
 
 #practice .heading-icon {
   flex-shrink: 0;
-  color: #23baff;
+  color: #267cf4;
   font-size: 1.55rem;
   font-weight: 800;
 }
 
 #practice .memory-icon {
-  color: #ffd24f;
+  color: #8b5cf6;
   font-size: 2rem;
 }
 
 #practice .stats-icon {
-  color: #bc7bff;
+  color: #267cf4;
 }
 
-/* Algorithm row */
+/* Algorithm selection */
 
 #practice .algorithm-panel {
   display: grid;
-  grid-template-columns: minmax(235px, 1.1fr) minmax(300px, 2.5fr) minmax(180px, 1.15fr);
+  grid-template-columns:
+    minmax(235px, 1.1fr)
+    minmax(300px, 2.5fr)
+    minmax(180px, 1.15fr);
   align-items: center;
   gap: 15px;
   margin-bottom: 12px;
@@ -131,10 +134,10 @@
   flex: 1;
   min-width: 0;
   padding: 12px 8px;
-  border: 1px solid #315c9d;
-  border-radius: 10px;
-  background: linear-gradient(145deg, #102b56, #0b1c3b);
-  color: #f3f6ff;
+  border: 1px solid #c5dcff;
+  border-radius: 9px;
+  background: #f5f9ff;
+  color: #20335f;
   font-weight: 700;
   font-size: 0.92rem;
   cursor: pointer;
@@ -142,14 +145,20 @@
 }
 
 #practice .algorithm-btn:hover:not(:disabled) {
-  border-color: #a78bff;
-  background: #192b5b;
+  border-color: #267cf4;
+  background: #eaf3ff;
 }
 
 #practice .algorithm-btn.active {
-  background: linear-gradient(130deg, #713aff, #3f16e9);
-  border-color: #c1a6ff;
-  box-shadow: 0 0 12px rgba(135, 88, 255, 0.55);
+  background: linear-gradient(130deg, #398cff, #2469e8);
+  border-color: #267cf4;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(38, 124, 244, 0.22);
+}
+
+#practice .algorithm-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
 }
 
 #practice .sim-tip {
@@ -157,9 +166,9 @@
   align-items: center;
   gap: 9px;
   padding: 10px;
-  border: 1px solid #214d86;
+  border: 1px solid #f3dfa0;
   border-radius: 10px;
-  background: #0b2047;
+  background: #fff9e5;
 }
 
 #practice .sim-tip span {
@@ -168,12 +177,12 @@
 
 #practice .sim-tip p {
   margin: 0;
-  color: #d5e5ff;
+  color: #5d4a1d;
   font-size: 0.78rem;
-  line-height: 1.4;
+  line-height: 1.5;
 }
 
-/* Input row: memory | processes | actions */
+/* Inputs */
 
 #practice .input-row {
   display: grid;
@@ -187,7 +196,7 @@
   align-items: center;
   gap: 9px;
   margin-bottom: 10px;
-  color: #f4f6ff;
+  color: #20335f;
   font-size: 0.97rem;
   font-weight: 700;
 }
@@ -197,17 +206,22 @@
   width: 100%;
   min-width: 0;
   padding: 11px 13px;
-  border: 1px solid #3973c4;
+  border: 1px solid #a9caff;
   border-radius: 8px;
   outline: none;
-  background: #10264d;
-  color: #ffffff;
+  background: #fbfdff;
+  color: #17264c;
   font-size: 1rem;
 }
 
 #practice .input-panel input:focus {
-  border-color: #38bdf8;
-  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.13);
+  border-color: #267cf4;
+  box-shadow: 0 0 0 3px rgba(38, 124, 244, 0.12);
+}
+
+#practice .input-panel input:disabled {
+  background: #edf2f9;
+  color: #64748b;
 }
 
 #practice .input-panel small {
@@ -215,7 +229,7 @@
   margin-top: 8px;
   color: var(--sim-muted);
   font-size: 0.76rem;
-  line-height: 1.4;
+  line-height: 1.5;
 }
 
 #practice .action-panel {
@@ -237,25 +251,26 @@
 
 #practice .allocate-btn {
   flex: 1.2;
-  border: 1px solid #00f0b0;
-  background: linear-gradient(135deg, #10dba0, #009c75);
+  border: 1px solid #00b889;
+  background: linear-gradient(135deg, #13c99a, #00a77c);
   color: #ffffff;
 }
 
 #practice .allocate-btn:hover:not(:disabled) {
-  filter: brightness(1.1);
-  box-shadow: 0 0 16px rgba(0, 214, 154, 0.2);
+  filter: brightness(1.04);
+  box-shadow: 0 4px 14px rgba(0, 169, 128, 0.2);
 }
 
 #practice .reset-btn {
   flex: 0.8;
-  border: 1px solid #315c9d;
-  background: linear-gradient(145deg, #122d58, #0a1b39);
-  color: #ffffff;
+  border: 1px solid #bfd5f8;
+  background: #edf4ff;
+  color: #203d78;
 }
 
 #practice .reset-btn:hover:not(:disabled) {
-  border-color: #7ca8e9;
+  border-color: #267cf4;
+  background: #e0edff;
 }
 
 #practice .action-panel button:disabled {
@@ -263,7 +278,7 @@
   cursor: not-allowed;
 }
 
-/* Main visual row */
+/* Visualization and process steps */
 
 #practice .visual-row {
   display: grid;
@@ -297,7 +312,7 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  color: #dbe7ff;
+  color: #43577f;
   font-size: 0.76rem;
 }
 
@@ -309,15 +324,17 @@
 }
 
 #practice .allocated-legend {
-  background: #b99aff;
+  background: #c8b5ff;
+  border: 1px solid #9567f3;
 }
 
 #practice .free-legend {
-  background: #ffda66;
+  background: #ffe79a;
+  border: 1px solid #efc943;
 }
 
 #practice .checking-legend {
-  border: 2px dashed #ffb52e;
+  border: 2px dashed #e99a15;
 }
 
 /* Memory blocks */
@@ -345,7 +362,7 @@
   overflow: hidden;
   border: 2px solid transparent;
   border-radius: 10px;
-  color: #071432;
+  color: #17264c;
   transition:
     flex-grow 0.35s ease,
     border-color 0.2s ease,
@@ -354,38 +371,36 @@
 }
 
 #practice .memory-block.free {
-  background: linear-gradient(180deg, #ffe68c, #ffd451);
-  border-color: #ffdc62;
+  background: linear-gradient(180deg, #fff1b8, #ffe58a);
+  border-color: #f2d05c;
 }
 
 #practice .memory-block.allocated {
-  background: linear-gradient(180deg, #c9b0ff, #a98bff);
-  border-color: #9c6cff;
+  background: linear-gradient(180deg, #e1d5ff, #cbb6ff);
+  border-color: #a98af5;
 }
 
 #practice .memory-block.checking {
   z-index: 2;
-  transform: translateY(-5px);
-  border-color: #ffae2e;
-  box-shadow: 0 0 0 3px rgba(255, 174, 46, 0.22),
-              0 0 18px rgba(255, 174, 46, 0.3);
+  transform: translateY(-3px);
+  border-color: #e99a15;
+  box-shadow: 0 0 0 3px rgba(233, 154, 21, 0.17);
 }
 
 #practice .memory-block.failed {
-  border-color: #ff7777;
-  box-shadow: 0 0 0 2px rgba(255, 119, 119, 0.2);
+  border-color: #e45c6b;
+  box-shadow: 0 0 0 2px rgba(228, 92, 107, 0.14);
 }
 
 #practice .memory-block.success {
-  border-color: #00e6a4;
-  box-shadow: 0 0 0 3px rgba(0, 230, 164, 0.2),
-              0 0 18px rgba(0, 230, 164, 0.2);
+  border-color: #00a980;
+  box-shadow: 0 0 0 3px rgba(0, 169, 128, 0.14);
 }
 
 #practice .memory-block-header {
   flex-shrink: 0;
   padding: 10px 4px;
-  background: rgba(30, 20, 90, 0.13);
+  background: rgba(255, 255, 255, 0.38);
   text-align: center;
   font-size: 0.8rem;
   font-weight: 800;
@@ -406,7 +421,7 @@
 
 #practice .memory-block-content strong {
   font-size: clamp(0.8rem, 1.2vw, 1.15rem);
-  line-height: 1.35;
+  line-height: 1.4;
 }
 
 #practice .memory-block-content span {
@@ -414,12 +429,12 @@
   max-width: 100%;
   margin-top: 7px;
   font-size: clamp(0.68rem, 0.85vw, 0.8rem);
-  line-height: 1.35;
+  line-height: 1.4;
 }
 
 #practice .memory-block-content .fragmentation-label {
   padding-top: 8px;
-  border-top: 1px solid rgba(32, 26, 93, 0.18);
+  border-top: 1px solid rgba(67, 55, 120, 0.2);
   font-weight: 700;
 }
 
@@ -428,13 +443,13 @@
 #practice .memory-axis {
   margin-top: 12px;
   padding-top: 10px;
-  border-top: 1px solid #28518c;
-  color: #c9dcff;
+  border-top: 1px solid #c8dafa;
+  color: #52678f;
   text-align: center;
   font-size: 0.82rem;
 }
 
-/* Current process and steps */
+/* Current process */
 
 #practice .process-panel > .panel-heading {
   margin-bottom: 13px;
@@ -442,44 +457,44 @@
 
 #practice .current-process-card {
   padding: 12px;
-  border: 1px solid #8a65ff;
+  border: 1px solid #c9b6ff;
   border-radius: 12px;
-  background: linear-gradient(140deg, #29236f, #151c4a);
+  background: linear-gradient(140deg, #f3edff, #e8eaff);
   margin-bottom: 10px;
 }
 
 #practice .card-label {
   display: block;
-  color: #e5e0ff;
+  color: #4c4381;
   font-size: 0.82rem;
 }
 
 #practice .current-process-card strong {
   display: block;
   margin: 8px 0;
-  color: #d4b7ff;
+  color: #7442cf;
   font-size: 1.2rem;
   text-align: center;
   overflow-wrap: anywhere;
 }
 
 #practice .process-status {
-  color: #d3e1ff;
+  color: #35456c;
   font-size: 0.8rem;
   text-align: center;
-  line-height: 1.45;
+  line-height: 1.5;
 }
 
 #practice .steps-card {
   padding: 12px;
-  border: 1px solid #2e5d9f;
+  border: 1px solid #c9ddf8;
   border-radius: 12px;
-  background: #091b3a;
+  background: #f8fbff;
 }
 
 #practice .steps-heading {
   margin-bottom: 10px;
-  color: #ffffff;
+  color: #20335f;
   font-size: 0.9rem;
   font-weight: 800;
 }
@@ -500,9 +515,9 @@
   display: flex;
   align-items: flex-start;
   gap: 9px;
-  color: #c9d9f7;
+  color: #43577f;
   font-size: 0.78rem;
-  line-height: 1.45;
+  line-height: 1.5;
   overflow-wrap: anywhere;
 }
 
@@ -515,44 +530,44 @@
   width: 19px;
   height: 19px;
   border-radius: 50%;
-  background: #00c994;
-  color: #032b2b;
+  background: #b7f3df;
+  color: #006c51;
   font-weight: 900;
   font-size: 0.7rem;
 }
 
 #practice .simulation-steps li.step-current {
-  color: #ffffff;
+  color: #17264c;
   font-weight: 700;
 }
 
 #practice .simulation-steps li.step-current::before {
   content: "›";
-  background: #169dff;
+  background: #267cf4;
   color: white;
   font-size: 1.1rem;
 }
 
 #practice .simulation-steps li.step-failed::before {
   content: "×";
-  background: #ff7777;
-  color: #3a0710;
+  background: #ffe0e3;
+  color: #bb2638;
 }
 
 #practice .simulation-steps li.empty-step::before {
   content: "i";
-  background: #355b94;
-  color: white;
+  background: #dbeafe;
+  color: #2455a5;
 }
 
 #practice .simulation-status {
   margin-top: 10px;
-  color: #a9c8ff;
+  color: #52678f;
   font-size: 0.78rem;
-  line-height: 1.45;
+  line-height: 1.5;
 }
 
-/* Statistics full-width row */
+/* Statistics */
 
 #practice .statistics-panel {
   width: 100%;
@@ -594,57 +609,57 @@
   display: block;
   margin-bottom: 6px;
   font-size: 0.78rem;
-  line-height: 1.35;
+  line-height: 1.4;
 }
 
 #practice .stat-card strong {
   display: block;
-  color: #ffffff;
+  color: #17264c;
   font-size: clamp(1rem, 1.5vw, 1.35rem);
   overflow-wrap: anywhere;
 }
 
 #practice .stat-total {
-  background: linear-gradient(135deg, #49204d, #301b43);
-  border-color: #ff45b9;
+  background: #eaf3ff;
+  border-color: #9bc7ff;
 }
 
 #practice .stat-total .stat-icon,
 #practice .stat-total .stat-label {
-  color: #ff8cdb;
+  color: #267cf4;
 }
 
 #practice .stat-used {
-  background: linear-gradient(135deg, #07376c, #062750);
-  border-color: #00aaff;
+  background: #e3fbf4;
+  border-color: #8ce7ce;
 }
 
 #practice .stat-used .stat-icon,
 #practice .stat-used .stat-label {
-  color: #55c7ff;
+  color: #00896a;
 }
 
 #practice .stat-free {
-  background: linear-gradient(135deg, #064a45, #04312f);
-  border-color: #00dfad;
+  background: #fff8df;
+  border-color: #f4df91;
 }
 
 #practice .stat-free .stat-icon,
 #practice .stat-free .stat-label {
-  color: #48f1c6;
+  color: #9a6a00;
 }
 
 #practice .stat-fragmentation {
-  background: linear-gradient(135deg, #40167a, #26134c);
-  border-color: #a33dff;
+  background: #f1eaff;
+  border-color: #c9b1ff;
 }
 
 #practice .stat-fragmentation .stat-icon,
 #practice .stat-fragmentation .stat-label {
-  color: #d1a0ff;
+  color: #8145d5;
 }
 
-/* Mobile and tablet */
+/* Responsive layout */
 
 @media (max-width: 1050px) {
   #practice .algorithm-panel {
@@ -738,8 +753,7 @@
   }
 }
 
-
-/* ===== FIX: EMPTY SPACE BELOW MEMORY BLOCKS ===== */
+/* Keep memory panel and blocks balanced */
 
 #practice .memory-panel {
   height: fit-content;
@@ -760,12 +774,10 @@
   min-height: 260px;
 }
 
-/* Keep memory blocks visually balanced */
 #practice .memory-block-content {
   justify-content: center;
 }
 
-/* Tablet */
 @media (max-width: 760px) {
   #practice .memory-blocks {
     height: 280px;
@@ -777,7 +789,6 @@
   }
 }
 
-/* Mobile */
 @media (max-width: 520px) {
   #practice .memory-blocks {
     height: 230px;

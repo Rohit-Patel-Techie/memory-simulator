@@ -652,7 +652,6 @@ pre {
 }
 
 /* Answer choices */
-
 #quiz .choices {
   display: flex;
   flex-direction: column;

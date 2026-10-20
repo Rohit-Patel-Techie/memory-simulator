@@ -1,6 +1,6 @@
 /* =========================================================
    MEMORY ALLOCATION SIMULATOR
-   First Fit | Best Fit | Worst Fit
+   First-Fit | Best-Fit | Worst-Fit
    Automatic visual simulation
    ========================================================= */
 
@@ -49,9 +49,9 @@
 
   function algorithmName() {
     return {
-      first: "First Fit",
-      best: "Best Fit",
-      worst: "Worst Fit"
+      first: "First-Fit",
+      best: "Best-Fit",
+      worst: "Worst-Fit"
     }[algorithm];
   }
 
@@ -402,7 +402,7 @@
   }
 
   /* -------------------------------------------------------
-     FIRST FIT
+     First-Fit
      Select the first free block large enough.
      ------------------------------------------------------- */
 
@@ -423,7 +423,7 @@
   }
 
   /* -------------------------------------------------------
-     BEST FIT
+     Best-Fit
      Select the smallest suitable free block.
      ------------------------------------------------------- */
 
@@ -453,13 +453,13 @@
 
       updateProcess(
         process,
-        `Best Fit selected the smallest suitable block: Block ${bestBlock.id}.`
+        `Best-Fit selected the smallest suitable block: Block ${bestBlock.id}.`
       );
 
-      updateStatus(`Best Fit selected Block ${bestBlock.id}.`);
+      updateStatus(`Best-Fit selected Block ${bestBlock.id}.`);
 
       addStep(
-        `Best Fit selects Block ${bestBlock.id} (${bestBlock.size} KB).`,
+        `Best-Fit selects Block ${bestBlock.id} (${bestBlock.size} KB).`,
         "current"
       );
 
@@ -472,7 +472,7 @@
   }
 
   /* -------------------------------------------------------
-     WORST FIT
+     Worst-Fit
      Select the largest suitable free block.
      ------------------------------------------------------- */
 
@@ -502,13 +502,13 @@
 
       updateProcess(
         process,
-        `Worst Fit selected the largest suitable block: Block ${worstBlock.id}.`
+        `Worst-Fit selected the largest suitable block: Block ${worstBlock.id}.`
       );
 
-      updateStatus(`Worst Fit selected Block ${worstBlock.id}.`);
+      updateStatus(`Worst-Fit selected Block ${worstBlock.id}.`);
 
       addStep(
-        `Worst Fit selects Block ${worstBlock.id} (${worstBlock.size} KB).`,
+        `Worst-Fit selects Block ${worstBlock.id} (${worstBlock.size} KB).`,
         "current"
       );
 

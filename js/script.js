@@ -129,7 +129,7 @@ document.querySelectorAll(".copy-button").forEach((button) => {
 const questions = [
   {
     question: "Q1) Which strategy allocates the smallest sufficient block to a process?",
-    choices: ["First Fit", "Best Fit", "Worst Fit", "None"],
+    choices: ["First-Fit", "Best-Fit", "Worst-Fit", "None"],
     correctAnswers: [1]
   },
   {
@@ -144,7 +144,7 @@ const questions = [
   },
   {
     question: "Q3) Which allocation strategy generally searches from the beginning and selects the first suitable block?",
-    choices: ["Best Fit", "Worst Fit", "First Fit", "None"],
+    choices: ["Best-Fit", "Worst-Fit", "First-Fit", "None"],
     correctAnswers: [2]
   },
   {
@@ -154,7 +154,7 @@ const questions = [
   },
   {
     question: "Q5) Which strategy selects the largest available block that can accommodate a process?",
-    choices: ["First Fit", "Best Fit", "Worst Fit", "Round Robin"],
+    choices: ["First-Fit", "Best-Fit", "Worst-Fit", "Round Robin"],
     correctAnswers: [2]
   },
   {
@@ -173,7 +173,7 @@ const questions = [
     correctAnswers: [0]
   },
   {
-    question: "Q8) A process requires 180 KB. Which partition is the smallest suitable choice for Best Fit?",
+    question: "Q8) A process requires 180 KB. Which partition is the smallest suitable choice for Best-Fit?",
     choices: ["150 KB", "200 KB", "300 KB", "100 KB"],
     correctAnswers: [1]
   },
@@ -183,7 +183,7 @@ const questions = [
     correctAnswers: [2]
   },
   {
-    question: "Q10) Which statement about First Fit is correct?",
+    question: "Q10) Which statement about First-Fit is correct?",
     choices: [
       "It always selects the largest block",
       "It selects the smallest suitable block",
@@ -212,13 +212,16 @@ function showQuestion() {
   choicesContainer.innerHTML = "";
   userAnswers[currentQuestionIndex] = [];
 
-  currentQuestion.choices.forEach((choice, index) => {
-    const button = document.createElement("button");
-    button.textContent = choice;
-    button.classList.add("choice");
-    button.addEventListener("click", () => toggleSelection(index));
-    choicesContainer.appendChild(button);
-  });
+ const shuffledChoices = [...currentQuestion.choices]
+  .sort(() => Math.random() - 0.5);
+
+shuffledChoices.forEach((choice, index) => {
+  const button = document.createElement("button");
+  button.textContent = choice;
+  button.classList.add("choice");
+  button.addEventListener("click", () => toggleSelection(index));
+  choicesContainer.appendChild(button);
+});
 
   nextButton.disabled = true; // Disable Next until an answer is selected
   nextButton.style.display = "block";
@@ -227,30 +230,21 @@ function showQuestion() {
 }
 
 function toggleSelection(selectedIndex) {
-  if (!userAnswers[currentQuestionIndex]) {
-    userAnswers[currentQuestionIndex] = [];
-  }
-  const selected = userAnswers[currentQuestionIndex];
-  const idx = selected.indexOf(selectedIndex);
+  userAnswers[currentQuestionIndex] = [
+    questions[currentQuestionIndex].choices.indexOf(
+      document.querySelectorAll("#choices .choice")[selectedIndex].textContent
+    )
+  ];
 
-  if (idx > -1) {
-    selected.splice(idx, 1);
-  } else {
-    selected.push(selectedIndex);
-  }
+  document.querySelectorAll("#choices .choice").forEach((btn, index) => {
+    const selected = index === selectedIndex;
 
-  // Update button styles
-  document.querySelectorAll(".choice").forEach((btn, index) => {
-    if (selected.includes(index)) {
-      btn.style.backgroundColor = "#4285F4";
-      btn.style.color = "white";
-    } else {
-      btn.style.backgroundColor = "#f1f1f1";
-      btn.style.color = "black";
-    }
+    btn.style.backgroundColor = selected ? "#4285F4" : "#f1f1f1";
+    btn.style.color = selected ? "white" : "black";
+    btn.setAttribute("aria-pressed", String(selected));
   });
 
-  nextButton.disabled = selected.length === 0;
+  nextButton.disabled = false;
 }
 
 function checkAnswer() {

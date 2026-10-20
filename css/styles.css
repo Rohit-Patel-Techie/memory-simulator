@@ -1,4 +1,3 @@
-/* Global styles */
 * {
   margin: 0;
   padding: 0;
@@ -19,7 +18,10 @@ body {
   min-width: 320px;
 }
 
-/* Header styles */
+
+/* =====================================================================
+   2. HEADER & TOP MENU
+   ===================================================================== */
 .header {
   display: flex;
   align-items: center;
@@ -38,6 +40,14 @@ body {
   min-height: 40px;
 }
 
+/* Logo + lab name */
+.logo-container {
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+  align-items: center;
+}
+
 .logo img {
   min-width: 40px;
   width: 9vh;
@@ -53,32 +63,10 @@ body {
   text-align: left;
 }
 
+/* Menu links */
 .nav-menu {
   display: flex;
   gap: 20px;
-}
-
-.logo-container {
-  display: flex;
-  flex-direction: row;
-  text-align: center;
-  align-items: center;
-}
-
-.menu-toggle {
-  display: none;
-  font-size: 24px;
-  cursor: pointer;
-  font-weight: bold;
-  padding-right: 10px;
-}
-
-.close-btn {
-  display: none;
-}
-
-.nav-menu {
-  display: flex;
   align-items: center;
   justify-content: flex-end;
 }
@@ -95,29 +83,52 @@ body {
   cursor: pointer;
 }
 
+/* Mobile menu buttons (hidden on desktop) */
+.menu-toggle {
+  display: none;
+  font-size: 24px;
+  cursor: pointer;
+  font-weight: bold;
+  padding-right: 10px;
+}
+
+.close-btn {
+  display: none;
+}
+
+/* Lab title shown below the header */
 .yourvlabtitle {
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
   font-size: 1rem;
   text-align: center;
   color: #000;
+  margin-top: 5px;
   padding-top: 1vh;
   font-weight: bold;
   width: 100%;
 }
 
-/* Navigation styles */
+
+/* =====================================================================
+   3. EXPERIMENT NAVIGATION TILES
+   ===================================================================== */
 .pageview {
   display: grid;
   place-items: center;
   background-color: inherit;
 }
 
-/* Navigation Wrapper: This div will control the sticky behavior */
+/* Wrapper controls the sticky behaviour of the tiles */
 .navigation-wrapper {
   width: 100%;
-  z-index: 900;
-  min-height: 120px;
-  /* Reserve minimum space for navigation */
+  position: sticky;
+  top: 8vh;
+  /* adjust for your header height */
+  z-index: 999;
+  min-height: 150px;
+  /* reserve space for navigation */
 }
+
 
 .navigation {
   display: flex;
@@ -172,6 +183,41 @@ body {
   font-weight: 700;
 }
 
+/* Sticky (compact) mode: tiles shrink to round icons */
+.sticky-nav-wrapper .navigation {
+  top: 8vh;
+  left: 50%;
+  transform: scale(0.9);
+  width: 92%;
+  max-width: 1200px;
+  background-color: rgba(135, 147, 150, 0.419);
+  z-index: 999;
+  backdrop-filter: blur(2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.sticky-nav-wrapper .navigation .link {
+  height: 60px;
+  width: 60px;
+  border-width: 2px;
+  opacity: 0.95;
+  padding: 8px;
+  border-radius: 40px;
+}
+
+.sticky-nav-wrapper .navigation .link:hover {
+  transform: scale(1.05);
+}
+
+.sticky-nav-wrapper .navigation .link img {
+  height: 40px;
+}
+
+.sticky-nav-wrapper .navigation .link span {
+  font-size: 0;
+}
+
+/* Back-to-top button */
 #backToTop {
   position: fixed;
   bottom: 20px;
@@ -206,132 +252,29 @@ body {
   transition: ease 0.5s;
 }
 
-.navigation-wrapper {
-  position: sticky;
-  top: 8vh;
-  /* adjust for your header height */
-  z-index: 999;
-  min-height: 150px;
+
+#aim,
+#theory,
+#procedure,
+#code,
+#result,
+#quiz,
+#practice,
+#references,
+#tnt {
+  display: none;
 }
 
-.sticky-trigger {
-  height: 50px;
-  width: 100%;
-  pointer-events: none;
+#aim {
+  display: block;
 }
 
-/* When sticky, the navigation itself becomes fixed */
-.sticky-nav-wrapper .navigation {
-  /* position: fixed; */
-  top: 8vh;
-  left: 50%;
-  transform: scale(0.9);
-  width: 92%;
-  max-width: 1200px;
-  background-color: rgba(135, 147, 150, 0.419);
 
-  z-index: 999;
-  backdrop-filter: blur(2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-.sticky-nav-wrapper .navigation .link {
-  height: 60px;
-  width: 60px;
-  border-width: 2px;
-  opacity: 0.95;
-  padding: 8px;
-  border-radius: 40px;
-}
-
-.sticky-nav-wrapper .navigation .link:hover {
-  transform: scale(1.05);
-}
-
-.sticky-nav-wrapper .navigation .link img {
-  height: 40px;
-}
-
-.sticky-nav-wrapper .navigation .link span {
-  font-size: 0;
-}
-
-/* Responsive styles */
-@media screen and (max-width: 840px) {
-  .header {
-    justify-content: space-between;
-  }
-
-  .logo-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .menu-toggle {
-    display: block;
-  }
-
-  .close-btn {
-    display: block;
-  }
-
-  .nav-menu {
-    position: fixed;
-    top: 0;
-    right: -250px;
-    height: 100%;
-    min-width: 200px;
-    flex-direction: column;
-    background-color: rgba(4, 74, 74, 0.74);
-    backdrop-filter: blur(8px);
-    transition: right 0.4s ease;
-  }
-
-  .nav-menu.show {
-    right: 0;
-  }
-
-  .copy-button {
-    position: absolute;
-    padding-right: 500px;
-    text-size-adjust: smaller;
-  }
-
-  .container .title {
-    font-size: 2rem;
-  }
-
-  .sticky-nav-wrapper .navigation {
-    left: 50%;
-    transform: scale(0.85);
-    width: 100%;
-    padding: 4px;
-    min-width: 450px;
-  }
-
-  .sticky-nav-wrapper .navigation .link {
-    width: 45px;
-    height: 45px;
-    padding: 3px;
-  }
-
-  .sticky-nav-wrapper .navigation .link img {
-    height: 35px;
-  }
-
-  .sticky-nav-wrapper .navigation {
-    font-size: 0;
-  }
-
-  .sticky-nav-wrapper .navigation .link:hover {
-    transform: scale(1.1);
-  }
-}
-
-/* Content sections */
+/* =====================================================================
+   5. MAIN CONTENT CONTAINER
+   ===================================================================== */
 .main_practical {
-  padding: 15px;
+  padding: 0px;
   background-color: inherit;
   display: flex;
   flex-direction: column;
@@ -349,18 +292,102 @@ body {
   border-radius: 20px;
   text-align: justify;
   width: calc(100vw - 9vw);
-  min-height: 95vh;
 }
 
 .container .title {
-  font-size: 2rem;
-  font-weight: bold;
-  color: #000;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #1a365d;
+  border-bottom: 3px solid #2b6cb0;
+  padding-bottom: 10px;
   margin-bottom: 20px;
   text-align: center;
 }
 
-/* General List Styling */
+.container img {
+  max-width: 50%;
+  height: auto;
+  display: block;
+  margin: 20px auto;
+  border-radius: 6px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+
+/* =====================================================================
+   6. SHARED CARD STYLES (Theory, Procedure, Code, Result,
+      References, Team & Tools all use the same white card look)
+   ===================================================================== */
+#theory,
+#procedure,
+#code,
+#result,
+#references,
+#tnt {
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  max-width: 1200px;
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* Theory & Procedure: full width, centred, with text defaults */
+#theory,
+#procedure {
+  line-height: 1.6;
+  color: #333;
+  margin: 0 auto;
+}
+
+/* Code: 95% wide, centred */
+#code {
+  width: 95%;
+  margin: 0 auto;
+}
+
+/* Result, References, Team & Tools: 95% wide, spaced from top/bottom */
+#result,
+#references,
+#tnt {
+  width: 95%;
+  margin: 30px auto;
+}
+
+/* Shared section title */
+#theory .title,
+#procedure .title,
+#code .title,
+#result .title,
+#references .title,
+#tnt .title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #1a365d;
+  border-bottom: 3px solid #2b6cb0;
+  padding-bottom: 10px;
+  margin-bottom: 25px;
+}
+
+#code .title {
+  margin-bottom: 20px;
+}
+
+/* Shared sub-heading (Theory & Procedure) */
+#theory h3,
+#procedure h3 {
+  color: #2c5282;
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 8px;
+  margin-top: 30px;
+  margin-bottom: 15px;
+}
+
+
+/* =====================================================================
+   7. SHARED LIST STYLES (Theory, Procedure, Practice)
+   ===================================================================== */
 #theory ul,
 #procedure ul,
 #practice ul,
@@ -370,28 +397,26 @@ body {
   padding-left: 25px;
   margin-bottom: 20px;
   list-style-position: inside;
-  /* Align markers with text */
+  /* align markers with text */
   font-size: 1rem;
   color: #333;
 }
 
-/* Unordered List */
+/* Bullets */
 #theory ul,
 #procedure ul,
 #practice ul {
   list-style-type: disc;
-  /* Default bullet style */
 }
 
-/* Ordered List */
+/* Numbers */
 #theory ol,
 #procedure ol,
 #practice ol {
   list-style-type: decimal;
-  /* Numbered list */
 }
 
-/* List Items */
+/* List items */
 #theory li,
 #procedure li,
 #practice li {
@@ -399,18 +424,19 @@ body {
   margin-bottom: 12px;
 }
 
-/* Nested Lists */
+/* Nested lists */
 #theory ul ul,
 #procedure ul ul,
 #practice ul ul,
 #theory ol ol,
-#procedure ol ol #practice ol ol,
+#procedure ol ol,
+#practice ol ol,
 #quiz-report ul {
   padding-left: 35px;
   font-size: 1rem;
 }
 
-/* Links Inside List Items */
+/* Links inside list items */
 #theory li a,
 #procedure li a,
 #practice li a {
@@ -418,29 +444,229 @@ body {
   color: inherit;
 }
 
-/* Code block styles */
+
+/* =====================================================================
+   8. THEORY SECTION
+   ===================================================================== */
+#theory {
+  max-width: 1200px;
+}
+
+#theory h3 {
+  font-size: 1.4rem;
+}
+
+#theory p {
+  margin-bottom: 16px;
+  text-align: justify;
+}
+
+/* Responsive images */
+#theory img {
+  max-width: 60%;
+  height: auto;
+  display: block;
+  margin: 20px auto;
+  /* centres the image */
+  border-radius: 6px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Sub-section (comparison area) */
+#theory .sub-section {
+  margin-top: 25px;
+  padding: 25px;
+  background-color: #f7fafc;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+/* Responsive tables */
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  /* horizontal scroll on mobile */
+  -webkit-overflow-scrolling: touch;
+  /* smooth scrolling on iOS */
+  margin-top: 15px;
+  border: 1px solid #cbd5e0;
+  border-radius: 6px;
+}
+
+#theory table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px;
+  /* prevents text crushing on small phones */
+}
+
+#theory th,
+#theory td {
+  border: 1px solid #cbd5e0;
+  padding: 14px;
+  text-align: left;
+  vertical-align: top;
+}
+
+#theory th {
+  background-color: #edf2f7;
+  font-weight: 700;
+  color: #2d3748;
+}
+
+#theory tr:nth-child(even) {
+  background-color: #fdfdfd;
+}
+
+/* Theory: mobile */
+@media screen and (max-width: 768px) {
+  #theory .sub-section {
+    padding: 15px;
+  }
+
+  #theory p,
+  #theory li {
+    font-size: 0.95rem;
+    text-align: left;
+    /* justify looks bad on small screens */
+  }
+
+  #theory th,
+  #theory td {
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+
+  #theory img {
+    max-width: 100%;
+  }
+}
+
+
+/* =====================================================================
+   9. PROCEDURE SECTION
+   ===================================================================== */
+#procedure h3 {
+  font-size: 1.3rem;
+}
+
+#procedure p {
+  margin-bottom: 20px;
+  font-size: 1.05rem;
+}
+
+/* Numbered steps with custom circles */
+#procedure ol {
+  padding-left: 20px;
+  margin-bottom: 25px;
+  counter-reset: procedure-counter;
+  list-style-type: none;
+}
+
+#procedure ol li {
+  position: relative;
+  margin-bottom: 14px;
+  padding-left: 35px;
+  font-size: 1.05rem;
+  color: #4a5568;
+}
+
+#procedure ol li::before {
+  counter-increment: procedure-counter;
+  content: counter(procedure-counter);
+  position: absolute;
+  left: 0;
+  top: 2px;
+  background-color: #edf2f7;
+  color: #2b6cb0;
+  font-weight: 700;
+  font-size: 0.9rem;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #cbd5e0;
+}
+
+#procedure strong {
+  color: #2d3748;
+}
+
+/* Procedure: mobile */
+@media screen and (max-width: 768px) {
+  #procedure h3 {
+    margin-top: 25px;
+  }
+
+  #procedure p,
+  #procedure ol li {
+    font-size: 0.95rem;
+  }
+
+  #procedure ol li::before {
+    width: 20px;
+    height: 20px;
+    font-size: 0.8rem;
+    top: 3px;
+  }
+}
+
+
+/* =====================================================================
+   10. CODE SECTION
+   ===================================================================== */
+#code p {
+  color: #4a5568;
+  font-size: 1.05rem;
+  margin-bottom: 20px;
+}
+
+/* ---- Language tabs (C++ / Python switch) ---- */
+input[type="radio"] {
+  display: none;
+}
+
 .switch-container {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  gap: 10px;
+  background-color: #d2d9df;
   padding: 5px;
+  border-radius: 8px;
+  width: max-content;
+  margin: 0 auto 20px;
 }
 
-input[type="radio"] {
+.switch-container .togswt {
   display: none;
 }
 
 .switch-container label {
-  cursor: pointer;
-  padding: 10px 20px;
-  background-color: rgb(0, 52, 65, 1);
-  color: #fff;
-  border-radius: 5px;
-  font-weight: bold;
+  padding: 10px 25px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #4a5568;
+  background-color: transparent;
+  border-radius: 6px;
   margin: 0 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
+/* Selected tab */
+.switch-container .togswt:checked+label {
+  background-color: #2b6cb0;
+  display: block;
+  border: 2px solid rgb(47, 255, 220);
+  color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* ---- Code blocks ---- */
 .code-blocks {
   display: flex;
   align-items: center;
@@ -448,23 +674,12 @@ input[type="radio"] {
 }
 
 pre {
-  overflow-y: scrollwpic;
   scrollbar-width: thin;
 }
 
 .code-block {
   display: none;
-}
-
-.code-block.active {
-  display: block;
-}
-
-.copy-button:hover {
-  background-color: #555;
-}
-
-.code-block {
+  /* hidden until JavaScript adds .active */
   position: relative;
   background-color: #f7f7f7;
   border-radius: 5px;
@@ -474,12 +689,9 @@ pre {
   scrollbar-width: thin;
 }
 
-.code-block {
-  display: none;
-}
-
 .code-block.active {
   display: block;
+  animation: fadeIn 0.4s ease-in-out;
 }
 
 .code-content {
@@ -487,37 +699,19 @@ pre {
   min-width: 1080px;
 }
 
-.copy-button {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  padding: 5px 10px;
-  background-color: #464646;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
+.code-content pre {
+  margin: 0;
+  overflow-x: auto;
+  /* horizontal scroll on mobile */
+  -webkit-overflow-scrolling: touch;
 }
 
-.copy-button.copied {
-  background-color: #171717;
-  color: white;
-}
-
-.code-content:hover .copy-button {
-  display: block;
-}
-
-.copy-button {
-  display: none;
-}
-
-.switch-container input[type="radio"]:checked + label {
-  background-color: #029ba6;
-  display: block;
-  border: 2px solid rgb(47, 255, 220);
-  color: rgb(238, 255, 0);
+.code-content code {
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #e2e8f0;
+  text-shadow: none;
 }
 
 .language-cpp,
@@ -528,13 +722,169 @@ pre {
   white-space: pre-wrap;
 }
 
-/* Quiz */
-/* ==============================
-   Stylish Quiz Section
-   ============================== */
-
-#quiz {
+/* ---- Copy button ---- */
+.copy-button {
   display: none;
+  position: absolute;
+  top: 15px;
+  right: 70px;
+  padding: 6px 14px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #4a5568;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  opacity: 0.8;
+}
+
+/* Show the button only while hovering over the code */
+.code-content:hover .copy-button {
+  display: block;
+}
+
+.copy-button:hover {
+  background-color: #2b6cb0;
+  opacity: 1;
+}
+
+.copy-button.copied {
+  background-color: #171717;
+  color: white;
+}
+
+/* Smooth fade-in for tab switching */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Code: mobile */
+@media screen and (max-width: 768px) {
+
+  /* Tabs take full width on small screens */
+  .switch-container {
+    width: 100%;
+    display: flex;
+  }
+
+  .switch-container label {
+    flex: 1;
+    text-align: center;
+    padding: 10px 0;
+  }
+
+  .code-content code {
+    font-size: 0.85rem;
+  }
+
+  .copy-button {
+    top: 8px;
+    right: 8px;
+    padding: 5px 10px;
+    font-size: 0.8rem;
+  }
+}
+
+
+/* =====================================================================
+   11. RESULT SECTION
+   ===================================================================== */
+#result p {
+  color: #4a5568;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+
+/* Bullet points become clean, interactive cards */
+#result ul {
+  list-style: none;
+  padding: 0;
+  margin: 25px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+#result li {
+  background-color: #f7fafc;
+  padding: 18px 20px;
+  border-left: 5px solid #2b6cb0;
+  border-radius: 6px;
+  color: #4a5568;
+  font-size: 1.05rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: default;
+}
+
+#result li:hover {
+  transform: translateX(8px);
+  /* slides slightly right on hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+  background-color: #ffffff;
+}
+
+#result li strong {
+  color: #2c5282;
+  font-size: 1.1rem;
+  margin-right: 5px;
+}
+
+/* Last paragraph = conclusion callout box */
+#result .content p:last-of-type {
+  background-color: #ebf4ff;
+  border: 1px solid #c3dafe;
+  padding: 20px;
+  border-radius: 8px;
+  color: #2a4365;
+  font-size: 1.1rem;
+  margin-top: 30px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+#result .content p:last-of-type strong {
+  color: #1a365d;
+}
+
+/* Result: mobile */
+@media screen and (max-width: 768px) {
+  #result p {
+    font-size: 0.95rem;
+  }
+
+  #result li {
+    padding: 15px;
+    font-size: 0.95rem;
+  }
+
+  #result .content p:last-of-type {
+    padding: 15px;
+    font-size: 1rem;
+  }
+
+  /* Reduce hover motion on touch devices */
+  #result li:hover {
+    transform: translateX(4px);
+  }
+}
+
+
+/* =====================================================================
+   12. QUIZ SECTION
+   (visibility is controlled in section 4)
+   ===================================================================== */
+#quiz {
   flex-direction: column;
   align-items: center;
   width: calc(100% - 40px);
@@ -549,8 +899,6 @@ pre {
   box-shadow: 0 8px 28px rgba(31, 76, 145, 0.09);
 }
 
-/* Quiz heading */
-
 #quiz .title {
   width: 100%;
   color: #173b75;
@@ -559,12 +907,11 @@ pre {
   text-align: center;
 }
 
-/* Instructions box */
-
+/* ---- Instructions box ---- */
 #quiz-instructions {
   width: 100%;
   max-width: 620px;
-  margin: 0 auto 20px;
+  /* margin: 0 auto 20px; */
   padding: 25px;
   box-sizing: border-box;
   border-radius: 16px;
@@ -577,21 +924,15 @@ pre {
 #quiz-instructions h3 {
   color: #244c91;
   font-size: 1.35rem;
-  margin-bottom: 14px;
+  /* margin-bottom: 14px; */
 }
 
 #quiz-instructions ul {
   padding-left: 22px;
   color: #40516f;
-  line-height: 1.8;
 }
 
-#quiz-instructions li {
-  margin-bottom: 7px;
-}
-
-/* Start Quiz button */
-
+/* ---- Start Quiz button ---- */
 #start-quiz-btn {
   display: block;
   width: fit-content;
@@ -614,8 +955,7 @@ pre {
   box-shadow: 0 8px 18px rgba(66, 103, 210, 0.27);
 }
 
-/* Quiz content box */
-
+/* ---- Quiz content box ---- */
 #quiz-content {
   display: flex;
   flex-direction: column;
@@ -633,8 +973,7 @@ pre {
   text-align: left;
 }
 
-/* Question */
-
+/* ---- Question ---- */
 #question {
   width: 100%;
   margin: 0;
@@ -651,7 +990,6 @@ pre {
   text-align: left;
 }
 
-/* Answer choices */
 #quiz .choices {
   display: flex;
   flex-direction: column;
@@ -678,8 +1016,8 @@ pre {
   text-align: left;
   cursor: pointer;
   transition: border-color 0.2s ease,
-              background-color 0.2s ease,
-              transform 0.2s ease;
+    background-color 0.2s ease,
+    transform 0.2s ease;
 }
 
 #quiz .choices .choice:hover {
@@ -688,8 +1026,7 @@ pre {
   color: #244c91;
 }
 
-/* Next button */
-
+/* ---- Next button ---- */
 #quiz #next-btn {
   display: block;
   align-self: center;
@@ -697,12 +1034,15 @@ pre {
   margin: 8px auto;
 }
 
-/* Quiz action buttons */
-
+/* ---- Quiz action buttons ---- */
 #quiz .quiz-button,
 #quiz #retake-btn,
 #quiz #see-answers-btn {
+  display: block;
+  width: fit-content;
+  max-width: 100%;
   padding: 12px 24px;
+  margin: 8px auto;
   border: none;
   border-radius: 10px;
   background: linear-gradient(135deg, #1769df, #5748ce);
@@ -711,6 +1051,20 @@ pre {
   font-weight: 700;
   cursor: pointer;
   transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+#quiz .quiz-actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+#quiz .quiz-actions button {
+  margin: 0;
 }
 
 #quiz .quiz-button:hover:not(:disabled),
@@ -731,14 +1085,12 @@ pre {
 }
 
 /* Keep result buttons separated */
-
 #quiz #retake-btn,
 #quiz #see-answers-btn {
   margin: 8px 6px;
 }
 
-/* Quiz report */
-
+/* ---- Quiz report ---- */
 #quiz-report {
   width: 100%;
   margin-top: 10px;
@@ -785,8 +1137,7 @@ pre {
   overflow-wrap: anywhere;
 }
 
-/* Mobile adjustments */
-
+/* Quiz: mobile */
 @media (max-width: 520px) {
   #quiz {
     width: calc(100% - 20px);
@@ -815,8 +1166,81 @@ pre {
 }
 
 
-/* tnt */
-/* Lists styling */
+/* =====================================================================
+   13. REFERENCES SECTION
+   ===================================================================== */
+.ref-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ref-list li {
+  position: relative;
+  background-color: #f8fafc;
+  padding: 16px 20px 16px 45px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+  color: #2d3748;
+  font-size: 1.05rem;
+  font-weight: 500;
+  line-height: 1.5;
+  transition: all 0.2s ease;
+}
+
+.ref-list li:hover {
+  background-color: #edf2f7;
+  border-color: #cbd5e0;
+  transform: translateX(4px);
+}
+
+/* Document icon */
+.ref-list li::before {
+  content: "📄";
+  position: absolute;
+  left: 15px;
+  top: 16px;
+  font-size: 1.1rem;
+  opacity: 0.7;
+}
+
+.ref-list li a {
+  text-decoration: none;
+  color: #222529;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.ref-list li a:hover {
+  color: #0073e6;
+}
+
+.ref-list li span {
+  font-style: italic;
+  font-weight: 500;
+}
+
+/* References: mobile */
+@media screen and (max-width: 768px) {
+  .ref-list li {
+    padding: 14px 15px 14px 40px;
+    font-size: 0.95rem;
+  }
+
+  .ref-list li::before {
+    left: 12px;
+    top: 14px;
+  }
+}
+
+
+/* =====================================================================
+   14. TEAM & TOOLS SECTION
+   ===================================================================== */
 #tnt .content {
   padding: 10px;
   background-color: #ffffff;
@@ -829,100 +1253,235 @@ pre {
   color: #2e3035;
   margin-bottom: 7px;
   margin-top: 16px;
-  /* Space above each section */
 }
 
-/* List Styling */
-.ref-list,
+#tnt h3 {
+  font-size: 1.4rem;
+  color: #2c5282;
+  margin-top: 30px;
+  margin-bottom: 15px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+/* ---- Team cards (Students & Mentors) ---- */
+.team-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 15px;
+}
+
+.team-list li {
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  /* pushes GitHub icon to the right */
+  align-items: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.team-list li:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+  border-color: #cbd5e0;
+}
+
+/* Mentors: slightly different background */
+.team-list.mentors li {
+  background-color: #f0f4f8;
+}
+
+.person-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.person-info .name {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #2d3748;
+}
+
+.person-info .role {
+  font-size: 0.9rem;
+  color: #718096;
+  margin-top: 2px;
+}
+
+/* GitHub link */
+.github-link {
+  color: #4a5568;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease;
+}
+
+.github-link:hover {
+  color: #1a202c;
+}
+
+/* ---- Tools list ---- */
 .tools-list {
   list-style: none;
-  padding-left: 0;
-  margin-bottom: 20px;
+  padding: 0;
+  margin: 0;
 }
 
-.ref-list li,
 .tools-list li {
-  padding: 10px;
-  background-color: #f9fafb;
-  border-radius: 4px;
+  background-color: #ebf4ff;
+  border-left: 4px solid #3182ce;
+  padding: 15px 20px;
   margin-bottom: 10px;
+  border-radius: 0 8px 8px 0;
+  display: flex;
+  flex-direction: column;
+  font-size: 1.1rem;
   font-weight: 500;
-  font-size: 1rem;
   color: #333;
   transition: background-color 0.3s ease;
-  /* Smooth hover effect */
 }
 
-.ref-list li a,
+.tools-list li:hover {
+  background-color: #e6f0ff;
+}
+
 .tools-list li span {
   text-decoration: none;
   color: inherit;
   font-weight: 400;
   transition: color 0.3s ease;
-  /* Transition for link hover effect */
 }
 
-.ref-list li:hover,
-.tools-list li:hover {
-  background-color: #e6f0ff;
-  /* Soft blue hover effect */
-}
-
-.ref-list li a:hover {
-  color: #0073e6;
-  /* Change link color on hover */
-}
-
-/* Mentors & Students Section Styling */
-.ref-list li,
-.tools-list li {
+.tools-list .tool-title {
   font-size: 1.1rem;
-  padding-left: 15px;
+  font-weight: 700;
+  color: #2a4365;
 }
 
-/* Styling for individual links */
-.ref-list li a {
-  color: #222529;
-  /* Soft blue color for links */
+.tools-list .tool-desc {
+  font-size: 0.95rem;
+  color: #4a5568;
+  margin-top: 5px;
+}
+
+/* Team & Tools: mobile */
+@media screen and (max-width: 768px) {
+  .team-list {
+    grid-template-columns: 1fr;
+    /* stack cards on mobile */
+  }
+
+  .team-list li {
+    padding: 15px;
+  }
+}
+
+
+/* =====================================================================
+   15. AIM SECTION
+   ===================================================================== */
+.aim-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.lead-text {
+  font-size: 1.25rem !important;
+  color: #2d3748 !important;
   font-weight: 500;
-  /* Bold the links slightly */
+  max-width: 800px;
 }
 
-/* Tile control  */
-#aim,
-#theory,
-#procedure,
-#code,
-#result,
-#quiz,
-#practice,
-#references,
-#tnt {
-  display: none;
+@media screen and (max-width: 768px) {
+  .lead-text {
+    font-size: 1.1rem !important;
+  }
 }
 
-#aim {
-  display: block;
+
+/* =====================================================================
+   16. SHARED RESPONSIVE RULES FOR SECTION CARDS (<= 768px)
+   Placed after every section so these overrides always win.
+   ===================================================================== */
+@media screen and (max-width: 768px) {
+
+  /* Card padding */
+  #theory {
+    padding: 15px;
+  }
+
+  #procedure,
+  #code,
+  #result,
+  #references,
+  #tnt {
+    padding: 20px;
+  }
+
+  /* Card spacing */
+  #procedure,
+  #code {
+    margin: 10px;
+  }
+
+  #result,
+  #references,
+  #tnt {
+    margin: 15px auto;
+  }
+
+  /* Titles */
+  #theory .title {
+    font-size: 1.6rem;
+  }
+
+  #procedure .title,
+  #code .title,
+  #result .title,
+  #references .title,
+  #tnt .title {
+    font-size: 1.8rem;
+  }
+
+  /* Sub-headings */
+  #theory h3,
+  #procedure h3 {
+    font-size: 1.2rem;
+  }
+
+  /* Images inside any container */
+  .container img {
+    max-width: 100%;
+  }
 }
 
-/* Adjustments */
 
+/* =====================================================================
+   17. GLOBAL RESPONSIVE RULES
+   Order matters: larger screens first, smallest screens last.
+   ===================================================================== */
+
+/* ---- Tablets / small laptops: <= 1000px ---- */
 @media (max-width: 1000px) {
   .labtitle {
     font-size: 1rem;
-    /* padding-top: 10vh; */
   }
 
   .navigation-wrapper {
     min-height: 120px;
-    /* Smaller reserved space on mobile */
+    /* smaller reserved space on mobile */
   }
 
   .navigation {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 4px;
     padding: 8px;
   }
 
@@ -931,7 +1490,6 @@ pre {
     height: 76px;
     border-width: 1px;
     padding: 7px;
-    border-radius: 10px;
   }
 
   .navigation .link img {
@@ -940,11 +1498,6 @@ pre {
 
   .navigation .link span {
     font-size: 0.65rem;
-    font-weight: bold;
-  }
-
-  .container {
-    padding: 5vh;
   }
 
   .title {
@@ -952,6 +1505,67 @@ pre {
   }
 }
 
+/* ---- Mobile menu & compact navigation: <= 840px ---- */
+@media screen and (max-width: 840px) {
+  .logo-container {
+    justify-content: space-between;
+  }
+
+  /* Slide-in mobile menu */
+  .menu-toggle {
+    display: block;
+  }
+
+  .close-btn {
+    display: block;
+  }
+
+  .nav-menu {
+    position: fixed;
+    top: 0;
+    right: -250px;
+    height: 100%;
+    min-width: 200px;
+    flex-direction: column;
+    background-color: rgba(4, 74, 74, 0.74);
+    backdrop-filter: blur(8px);
+    transition: right 0.4s ease;
+  }
+
+  .nav-menu.show {
+    right: 0;
+  }
+
+  .container .title {
+    font-size: 2rem;
+  }
+
+  /* Sticky navigation tiles */
+  .sticky-nav-wrapper .navigation {
+    left: 50%;
+    transform: scale(0.85);
+    width: 100%;
+    padding: 4px;
+    min-width: 450px;
+    font-size: 0;
+  }
+
+  .sticky-nav-wrapper .navigation .link {
+    width: 45px;
+    height: 45px;
+    padding: 3px;
+  }
+
+  .sticky-nav-wrapper .navigation .link img {
+    height: 35px;
+  }
+
+  .sticky-nav-wrapper .navigation .link:hover {
+    transform: scale(1.1);
+  }
+}
+
+/* ---- Phones: <= 500px ---- */
 @media screen and (max-width: 500px) {
   .vlab {
     font-size: 1.5rem;
@@ -982,7 +1596,7 @@ pre {
     padding: 3vh;
     margin: 0;
     text-align: left;
-    width: calc(100vw- 0vw);
+    font-size: 1rem;
   }
 
   .choices {
@@ -1000,11 +1614,7 @@ pre {
   }
 
   #code.container {
-    width: 330px;
-  }
-
-  .container {
-    font-size: 1rem;
+    margin: 30px auto;
   }
 
   .title {
@@ -1012,7 +1622,7 @@ pre {
   }
 }
 
-/* For very small screens */
+/* ---- Very small phones: <= 480px ---- */
 @media (max-width: 480px) {
   .sticky-nav-wrapper .navigation {
     transform: translateX(-50%) scale(0.8);
@@ -1024,7 +1634,6 @@ pre {
   .sticky-nav-wrapper .navigation .link {
     width: 40px;
     height: 40px;
-    padding: 3;
   }
 
   .sticky-nav-wrapper .navigation .link img {
@@ -1032,10 +1641,10 @@ pre {
   }
 }
 
+/* ---- Tiny phones: <= 340px ---- */
 @media (max-width: 340px) {
   .sticky-nav-wrapper .navigation {
     transform: translateX(-50%) scale(0.75);
-
     min-width: 300px;
   }
 }

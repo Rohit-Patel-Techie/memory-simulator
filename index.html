@@ -1,873 +1,885 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="description" content="brief description" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Add your V-Lab Title here</title>
-    <link rel="icon" href="images/vlab-logo.png" type="image/x-icon" />
-    <link rel="stylesheet" href="css/styles.css" />
-    <link rel="stylesheet" href="css/simulation.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/base16/harmonic16-dark.min.css"
-    />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
-  </head>
 
-  <body>
-    <header class="header">
-      <div class="logo-container">
-        <div class="logo">
-          <a
-            href="https://www.vlab.andcollege.du.ac.in"
-            rel="noopener"
-            target="_blank"
-          >
-            <img class="logo-img" src="images/logo.png" alt="VLab" />
-          </a>
-        </div>
-        <h1 class="vlab">V-Lab@ANDC</h1>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="description" content="brief description" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contiguous Memory Allocation</title>
+  <link rel="icon" href="images/vlab-logo.png" type="image/x-icon" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/simulation.css" />
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/base16/harmonic16-dark.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+</head>
+
+<body>
+  <header class="header">
+    <div class="logo-container">
+      <div class="logo">
+        <a href="https://www.vlab.andcollege.du.ac.in" rel="noopener" target="_blank">
+          <img class="logo-img" src="images/logo.png" alt="VLab" />
+        </a>
       </div>
-
-      <div class="menu-toggle" onclick="toggleMenu()">☰</div>
-      <nav class="nav-menu" id="small-screen">
-        <div class="close-btn" onclick="toggleMenu()">✖</div>
-        <a href="https://www.vlab.andcollege.du.ac.in">Home</a>
-        <a href="https://www.vlab.andcollege.du.ac.in#labs_section">Labs</a>
-        <a href="https://www.vlab.andcollege.du.ac.in#team">Team</a>
-        <a href="https://www.andcollege.du.ac.in">College Website</a>
-      </nav>
-    </header>
-    <button id="backToTop" title="Go to top" aria-label="Back to Top">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-        <path
-          d="M11 18.5c-.4-.1-1.3-.9-5.5-5.2-3.4-3.4-5.1-5.2-5.2-5.5-.2-.5-.2-1.0 0-1.4.3-.9 1.5-1.4 2.3-1 .1 0 2.2 2.1 4.7 4.5 2.5 2.5 4.5 4.5 4.7 4.5.3.1-.3.7 6.8-6.3 2.8-2.8 3-2.9 3.8-2.8 1.1.2 1.8 1.4 1.4 2.5-.2.5-10.1 10.3-10.7 10.6-.6.3-1.6.4-2.3.1z"
-        />
-      </svg>
-    </button>
-
-    <div class="yourvlabtitle">
-      <h1>Contiguous Memory Allocation</h1>
+      <h1 class="vlab">V-Lab@ANDC</h1>
     </div>
 
-    <div class="pageview">
-      <div class="sticky-trigger"></div>
+    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+    <nav class="nav-menu" id="small-screen">
+      <div class="close-btn" onclick="toggleMenu()">✖</div>
+      <a href="https://www.vlab.andcollege.du.ac.in">Home</a>
+      <a href="https://www.vlab.andcollege.du.ac.in#labs_section">Labs</a>
+      <a href="https://www.vlab.andcollege.du.ac.in#team">Team</a>
+      <a href="https://www.andcollege.du.ac.in">College Website</a>
+    </nav>
+  </header>
+  <button id="backToTop" title="Go to top" aria-label="Back to Top">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      <path
+        d="M11 18.5c-.4-.1-1.3-.9-5.5-5.2-3.4-3.4-5.1-5.2-5.2-5.5-.2-.5-.2-1.0 0-1.4.3-.9 1.5-1.4 2.3-1 .1 0 2.2 2.1 4.7 4.5 2.5 2.5 4.5 4.5 4.7 4.5.3.1-.3.7 6.8-6.3 2.8-2.8 3-2.9 3.8-2.8 1.1.2 1.8 1.4 1.4 2.5-.2.5-10.1 10.3-10.7 10.6-.6.3-1.6.4-2.3.1z" />
+    </svg>
+  </button>
 
-      <div class="navigation-wrapper" id="navWrapper">
-        <nav class="navigation">
-          <div class="link" title="Aim" onclick="switchContent('aim')">
-            <img class="icon" src="images/Aim_img.png" alt="Aim" />
-            <span>Aim</span>
-          </div>
+  <div class="yourvlabtitle">
+    <h1>Contiguous Memory Allocation</h1>
+  </div>
 
-          <div
-            class="link"
-            title="Theory & Application"
-            onclick="switchContent('theory')"
-          >
-            <img class="icon" src="images/theory_img.png" alt="THEORY" />
-            <span>Theory & Application</span>
-          </div>
+  <div class="pageview">
+    <div class="sticky-trigger"></div>
 
-          <div
-            class="link"
-            title="Procedure"
-            onclick="switchContent('procedure')"
-          >
-            <img class="icon" src="images/procedure_img.png" alt="PROCEDURE" />
-            <span>Procedure</span>
-          </div>
-
-          <div
-            class="link"
-            title="Practice"
-            onclick="switchContent('practice')"
-          >
-            <img class="icon" src="images/practice_img.png" alt="PRACTICE" />
-            <span>Practice</span>
-          </div>
-
-          <div class="link" title="Codes" onclick="switchContent('code')">
-            <img class="icon" src="images/code_img.png" alt="CODES" />
-            <span>Codes</span>
-          </div>
-
-          <div class="link" title="Result" onclick="switchContent('result')">
-            <img class="icon" src="images/result_img.png" alt="RESULT" />
-            <span>Result</span>
-          </div>
-
-          <div class="link" title="Quiz" onclick="switchContent('quiz')">
-            <img class="icon" src="images/quiz_img.png" alt="QUIZ" />
-            <span>Quiz</span>
-          </div>
-
-          <div
-            class="link"
-            title="References"
-            onclick="switchContent('references')"
-          >
-            <img class="icon" src="images/reference_img.png" alt="REFERENCE" />
-            <span>References</span>
-          </div>
-          <div class="link" title="Team & Tools" onclick="switchContent('tnt')">
-            <img class="icon" src="images/tnt_img.png" alt="TEAM & TOOLS" />
-            <span>Team & Tools</span>
-          </div>
-        </nav>
-      </div>
-
-      <section class="main_practical">
-        <!-- Aim -->
-        <div class="container" id="aim">
-          <div class="title">Aim</div>
-          <div class="content">
-            <p>
-              To Design, Implement, and Analyze a Virtual Lab for Simulating
-              First Fit, Best Fit, and Worst Fit Memory Allocation Techniques,
-              Visualizing Process Allocation, and Evaluating Memory Utilization
-              and Fragmentation in a Partitioned Memory Environment.
-            </p>
-          </div>
+    <div class="navigation-wrapper" id="navWrapper">
+      <nav class="navigation">
+        <div class="link" title="Aim" onclick="switchContent('aim')">
+          <img class="icon" src="images/Aim_img.png" alt="Aim" />
+          <span>Aim</span>
         </div>
 
-        <!-- Theory & Applications -->
-        <div class="container" id="theory">
-          <div class="title">Theory & Applications</div>
-          <div class="content">
+        <div class="link" title="Theory & Application" onclick="switchContent('theory')">
+          <img class="icon" src="images/theory_img.png" alt="THEORY" />
+          <span>Theory & Application</span>
+        </div>
+
+        <div class="link" title="Procedure" onclick="switchContent('procedure')">
+          <img class="icon" src="images/procedure_img.png" alt="PROCEDURE" />
+          <span>Procedure</span>
+        </div>
+
+        <div class="link" title="Practice" onclick="switchContent('practice')">
+          <img class="icon" src="images/practice_img.png" alt="PRACTICE" />
+          <span>Practice</span>
+        </div>
+
+        <div class="link" title="Codes" onclick="switchContent('code')">
+          <img class="icon" src="images/code_img.png" alt="CODES" />
+          <span>Codes</span>
+        </div>
+
+        <div class="link" title="Result" onclick="switchContent('result')">
+          <img class="icon" src="images/result_img.png" alt="RESULT" />
+          <span>Result</span>
+        </div>
+
+        <div class="link" title="Quiz" onclick="switchContent('quiz')">
+          <img class="icon" src="images/quiz_img.png" alt="QUIZ" />
+          <span>Quiz</span>
+        </div>
+
+        <div class="link" title="References" onclick="switchContent('references')">
+          <img class="icon" src="images/reference_img.png" alt="REFERENCE" />
+          <span>References</span>
+        </div>
+        <div class="link" title="Team & Tools" onclick="switchContent('tnt')">
+          <img class="icon" src="images/tnt_img.png" alt="TEAM & TOOLS" />
+          <span>Team & Tools</span>
+        </div>
+      </nav>
+    </div>
+
+    <section class="main_practical">
+      <!-- Aim Section -->
+      <div class="container active" id="aim">
+        <div class="title">Aim</div>
+
+        <div class="content aim-content">
+          <p class="lead-text">
+            To design, implement and analyze a Virtual Lab for simulating
+            Contiguous Memory Allocation techniques in a fixed partitioned
+            memory environment.
+          </p>
+        </div>
+        <img src="images/contiguous-memory-01.png" alt="Contiguous Memory Illustration" />
+      </div>
+
+      <!-- Theory & Applications -->
+      <div class="container" id="theory">
+        <div class="title">Theory & Applications</div>
+        <div class="content">
+          <p>
+            <strong>Memory management</strong> is responsible for allocating
+            and deallocating memory space to processes efficiently.
+          </p>
+
+          <div>
             <p>
-              <strong>Memory management</strong> is responsible for allocating
-              and deallocating memory space to processes efficiently.
+              <strong>The operating system</strong> maintains a list of free
+              memory blocks (holes) and allocated blocks, and must decide
+              which free block to assign when a new process arrives using
+              allocation strategies such as First-Fit, Best-Fit and Worst-Fit.
             </p>
+            <img src="images/memory_management_01.png" alt="Memory Management Strategies" />
+          </div>
+          <br />
 
-            <div>
-              <p>
-                <strong>The operating system</strong> maintains a list of free
-                memory blocks (holes) and allocated blocks, and must decide
-                which free block to assign when a new process arrives using
-                allocation strategies such as First Fit, Best Fit and Worst Fit.
-              </p>
-              <img
-                src="images/memory_management_01.png"
-                alt="Memory Management Strategies"
-                style="margin: 10px"
-              />
-            </div>
-            <br />
+          <p>
+            The main memory is a combination of two main portions - one for
+            the operating system and the other for the user program.
+          </p>
+          <img src="images/main-memory-portions-01.png" alt="Main Memory Portions" />
+
+          <!-- Grouped Comparison Section -->
+          <div class="sub-section">
+            <p>
+              <strong>Contiguous Memory Allocation:</strong> Contiguous memory
+              allocation is basically a method in which a single contiguous
+              section/part of memory is allocated to a process or file needing
+              it.
+            </p>
+            <img src="images/contiguous-memory-01.png" alt="Contiguous Memory Illustration" />
 
             <p>
-              The main memory is a combination of two main portions - one for
-              the operating system and the other for the user program.
+              <strong>Non-Contiguous Memory Allocation:</strong>
+              Non-Contiguous memory allocation is basically a method on the
+              contrary to the contiguous allocation method, allocating the
+              memory space present in different locations to the process as
+              per its requirements.
             </p>
-            <img
-              src="images/main-memory-portions-01.png"
-              alt="Main Memory Portions"
-            />
+            <img src="images/non-contiguous-01.png" alt="Non-Contiguous Memory Illustration" />
 
-            <!-- Grouped Comparison Section -->
-            <div
-              class="sub-section"
-              style="
-                margin-top: 20px;
-                padding: 15px;
-                background-color: #f9f9f9;
-                border-radius: 8px;
-              "
-            >
-              <p>
-                <strong>Contiguous Memory Allocation:</strong> Contiguous memory
-                allocation is basically a method in which a single contiguous
-                section/part of memory is allocated to a process or file needing
-                it.
-              </p>
-              <img
-                src="images/contiguous-memory-01.png"
-                alt="Contiguous Memory Illustration"
-                style="margin-bottom: 15px"
-              />
-
-              <p>
-                <strong>Non-Contiguous Memory Allocation:</strong>
-                Non-Contiguous memory allocation is basically a method on the
-                contrary to the contiguous allocation method, allocating the
-                memory space present in different locations to the process as
-                per its requirements.
-              </p>
-              <img
-                src="images/non-contiguous-01.png"
-                alt="Non-Contiguous Memory Illustration"
-              />
-
-              <h3 style="margin-top: 20px; font-size: 1.1em">
-                Difference Between Contiguous and Non-Contiguous Memory
-                Allocation
-              </h3>
-              <div
-                class="table-container"
-                style="overflow-x: auto; margin-top: 10px"
-              >
-                <table
-                  style="
+            <h3>
+              Difference Between Contiguous and Non-Contiguous Memory
+              Allocation
+            </h3>
+            <div class="table-container" style="overflow-x: auto; margin-top: 10px">
+              <table style="
                     width: 100%;
                     border-collapse: collapse;
                     font-family: sans-serif;
-                  "
-                >
-                  <thead>
-                    <tr style="background-color: #e2e2e2; text-align: left">
-                      <th style="border: 1px solid #ccc; padding: 12px">
-                        S.No.
-                      </th>
-                      <th style="border: 1px solid #ccc; padding: 12px">
-                        Contiguous Memory Allocation
-                      </th>
-                      <th style="border: 1px solid #ccc; padding: 12px">
-                        Non-Contiguous Memory Allocation
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td
-                        style="
-                          border: 1px solid #ccc;
-                          padding: 12px;
-                          font-weight: bold;
-                        "
-                      >
-                        1
-                      </td>
-                      <td style="border: 1px solid #ccc; padding: 12px">
-                        Allocates a single, consecutive block of memory to a
-                        process.
-                      </td>
-                      <td style="border: 1px solid #ccc; padding: 12px">
-                        Allocates separate, scattered blocks of memory to a
-                        single process.
-                      </td>
-                    </tr>
-                    <tr>
-                      <td
-                        style="
-                          border: 1px solid #ccc;
-                          padding: 12px;
-                          font-weight: bold;
-                        "
-                      >
-                        2
-                      </td>
-                      <td style="border: 1px solid #ccc; padding: 12px">
-                        Faster execution time and easier for the Operating
-                        System to control.
-                      </td>
-                      <td style="border: 1px solid #ccc; padding: 12px">
-                        Slower execution time and highly complex for the
-                        Operating System to manage.
-                      </td>
-                    </tr>
-                    <tr>
-                      <td
-                        style="
-                          border: 1px solid #ccc;
-                          padding: 12px;
-                          font-weight: bold;
-                        "
-                      >
-                        3
-                      </td>
-                      <td style="border: 1px solid #ccc; padding: 12px">
-                        Minimal overhead due to simple and limited address
-                        translations.
-                      </td>
-                      <td style="border: 1px solid #ccc; padding: 12px">
-                        High overhead because the system must perform numerous
-                        address translations.
-                      </td>
-                    </tr>
-                    <tr>
-                      <td
-                        style="
-                          border: 1px solid #ccc;
-                          padding: 12px;
-                          font-weight: bold;
-                        "
-                      >
-                        4
-                      </td>
-                      <td style="border: 1px solid #ccc; padding: 12px">
-                        Implemented using Fixed (Static) Partitioning or Dynamic
-                        Partitioning.
-                      </td>
-                      <td style="border: 1px solid #ccc; padding: 12px">
-                        Implemented using techniques like Paging and
-                        Segmentation.
-                      </td>
-                    </tr>
-                    <tr>
-                      <td
-                        style="
-                          border: 1px solid #ccc;
-                          padding: 12px;
-                          font-weight: bold;
-                        "
-                      >
-                        5
-                      </td>
-                      <td style="border: 1px solid #ccc; padding: 12px">
-                        Easily visualized and implemented in code using Arrays.
-                      </td>
-                      <td style="border: 1px solid #ccc; padding: 12px">
-                        Typically implemented using complex structures like
-                        Linked Lists.
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+                  ">
+                <thead>
+                  <tr>
+                    <th>S.No.</th>
+                    <th>Contiguous Memory Allocation</th>
+                    <th>Non-Contiguous Memory Allocation</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1</td>
+                    <td>
+                      Allocates a single, consecutive block of memory to a
+                      process.
+                    </td>
+                    <td>
+                      Allocates separate, scattered blocks of memory to a
+                      single process.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>2</td>
+                    <td>
+                      Faster execution time and easier for the Operating
+                      System to control.
+                    </td>
+                    <td>
+                      Slower execution time and highly complex for the
+                      Operating System to manage.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>3</td>
+                    <td>
+                      Minimal overhead due to simple and limited address
+                      translations.
+                    </td>
+                    <td>
+                      High overhead because the system must perform numerous
+                      address translations.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>4</td>
+                    <td>
+                      Implemented using Fixed (Static) Partitioning or Dynamic
+                      Partitioning.
+                    </td>
+                    <td>
+                      Implemented using techniques like Paging and
+                      Segmentation.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>5</td>
+                    <td>
+                      Easily visualized and implemented in code using Arrays.
+                    </td>
+                    <td>
+                      Typically implemented using complex structures like
+                      Linked Lists.
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
-
-            <h3 style="margin-top: 25px">Key Concepts</h3>
-            <ul>
-              <li>
-                <strong>Fixed Partitioning (Static Allocation):</strong> The RAM
-                is divided into fixed-size blocks before execution. A process is
-                allocated to a single block and no block can hold more than one
-                process.
-                <ul>
-                  <li>
-                    <strong>Degree of Multiprogramming:</strong> Strictly
-                    limited by the number of partitions created.
-                  </li>
-                  <li>
-                    <strong>Process Size Limit:</strong> A process size cannot
-                    exceed the size of the single largest partition in the
-                    memory map.
-                  </li>
-                  <li>
-                    <strong>Data Structure:</strong> Managed using a static
-                    Partition Description Table (PDT) array to track the
-                    allocated or free status of each block.
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <strong>Allocation Algorithms</strong>
-                <ul>
-                  <li>
-                    <strong>First Fit:</strong> Allocates the first available
-                    partition that is large enough to hold the process. It is
-                    fast and requires minimal searching, but often leaves larger
-                    blocks heavily fragmented early on.
-                  </li>
-                  <li>
-                    <strong>Best Fit:</strong> Searches the entire list of
-                    partitions and allocates the smallest available partition
-                    that fits the process. It minimizes wasted space within the
-                    chosen block but requires more CPU time to search.
-                  </li>
-                  <li>
-                    <strong>Worst Fit:</strong> Allocates the largest available
-                    partition. The logic assumes the leftover space will be
-                    large enough to hold another future process though it
-                    quickly degrades overall memory utilization.
-                  </li>
-                </ul>
-                <img
-                  src="images/memory-algo-compare_01.png"
-                  alt="First, Best and Worst Fit Comparison"
-                  style="margin-top: 10px"
-                />
-              </li>
-              <li>
-                <strong>Fragmentation Types</strong>
-                <ul>
-                  <li>
-                    <strong>Internal Fragmentation:</strong> Occurs when a
-                    process is allocated a memory block larger than its
-                    requested size. The leftover space strictly inside that
-                    specific block is permanently wasted.<br />
-                    <img
-                      src="./images/internal_fragmentation_01.png"
-                      alt="Diagram showing a 212KB process inside a 500KB block with 288KB visually highlighted as wasted internal fragmentation"
-                      style="
-                        max-width: 100%;
-                        height: auto;
-                        margin: 15px 0;
-                        border: 1px solid #ccc;
-                      "
-                    />
-                  </li>
-                  <li>
-                    <strong>External Fragmentation:</strong> Occurs when the
-                    total free memory across the system is sufficient to satisfy
-                    a process request, but the memory is not contiguous (it is
-                    scattered across multiple blocks), causing the OS to reject
-                    the process.<br />
-                    <img
-                      src="./images/external_fragmentation_01.png"
-                      alt="Diagram showing a 350KB process being rejected because the 450KB total free space is split into two separate blocks"
-                      style="
-                        max-width: 100%;
-                        height: auto;
-                        margin: 15px 0;
-                        border: 1px solid #ccc;
-                      "
-                    />
-                  </li>
-                </ul>
-              </li>
-            </ul>
-
-            <h3 style="margin-top: 25px">Applications in the Real World</h3>
-            <ol>
-              <li>
-                <strong>Legacy Mainframe Operating Systems:</strong> IBM's
-                OS/360 utilized fixed partitioning (MFT - Multiprogramming with
-                a Fixed number of Tasks) for early batch processing
-                environments.
-              </li>
-              <li>
-                <strong>Embedded Systems:</strong> Hardware with strict,
-                unchanging memory constraints often uses fixed memory mapping to
-                guarantee critical system processes always have reserved
-                execution space without dynamic overhead.
-              </li>
-              <li>
-                <strong>Custom Software Memory Allocators:</strong>
-                High-performance C++ applications and game engines often bypass
-                the OS to build custom memory pools utilizing variations of
-                First/Best fit to manage memory manually.
-              </li>
-            </ol>
           </div>
+
+          <h3>Key Concepts</h3>
+          <ul>
+            <li>
+              <strong>Fixed Partitioning (Static Allocation):</strong> The RAM
+              is divided into fixed-size blocks before execution. A process is
+              allocated to a single block and no block can hold more than one
+              process.
+              <ul>
+                <li>
+                  <strong>Degree of Multiprogramming:</strong> Strictly
+                  limited by the number of partitions created.
+                </li>
+                <li>
+                  <strong>Process Size Limit:</strong> A process size cannot
+                  exceed the size of the single largest partition in the
+                  memory map.
+                </li>
+                <li>
+                  <strong>Data Structure:</strong> Managed using a static
+                  Partition Description Table (PDT) array to track the
+                  allocated or free status of each block.
+                </li>
+              </ul>
+            </li>
+            <li>
+              <strong>Allocation Algorithms</strong>
+              <ul>
+                <li>
+                  <strong>First-Fit:</strong> Allocates the first available
+                  partition that is large enough to hold the process. It is
+                  fast and requires minimal searching, but often leaves larger
+                  blocks heavily fragmented early on.
+                </li>
+                <li>
+                  <strong>Best-Fit:</strong> Searches the entire list of
+                  partitions and allocates the smallest available partition
+                  that fits the process. It minimizes wasted space within the
+                  chosen block but requires more CPU time to search.
+                </li>
+                <li>
+                  <strong>Worst-Fit:</strong> Allocates the largest available
+                  partition. The logic assumes the leftover space will be
+                  large enough to hold another future process though it
+                  quickly degrades overall memory utilization.
+                </li>
+              </ul>
+              <img src="images/memory-algo-compare_01.png" alt="First, Best and Worst-Fit Comparison" />
+            </li>
+            <li>
+              <strong>Fragmentation Types</strong>
+              <ul>
+                <li>
+                  <strong>Internal Fragmentation:</strong> Occurs when a
+                  process is allocated a memory block larger than its
+                  requested size. The leftover space strictly inside that
+                  specific block is permanently wasted.<br />
+                  <img src="./images/internal_fragmentation_01.png"
+                    alt="Diagram showing a 212KB process inside a 500KB block with 288KB visually highlighted as wasted internal fragmentation" />
+                </li>
+                <li>
+                  <strong>External Fragmentation:</strong> Occurs when the
+                  total free memory across the system is sufficient to satisfy
+                  a process request, but the memory is not contiguous (it is
+                  scattered across multiple blocks), causing the OS to reject
+                  the process.<br />
+                  <img src="./images/external_fragmentation_01.png"
+                    alt="Diagram showing a 350KB process being rejected because the 450KB total free space is split into two separate blocks" />
+                </li>
+              </ul>
+            </li>
+          </ul>
+
+          <h3>Applications in the Real World</h3>
+          <ol>
+            <li>
+              <strong>Legacy Mainframe Operating Systems:</strong> IBM's
+              OS/360 utilized fixed partitioning (MFT - Multiprogramming with
+              a Fixed number of Tasks) for early batch processing
+              environments.
+            </li>
+            <li>
+              <strong>Embedded Systems:</strong> Hardware with strict,
+              unchanging memory constraints often uses fixed memory mapping to
+              guarantee critical system processes always have reserved
+              execution space without dynamic overhead.
+            </li>
+            <li>
+              <strong>Custom Software Memory Allocators:</strong>
+              High-performance C++ applications and game engines often bypass
+              the OS to build custom memory pools utilizing variations of
+              First/Best-Fit to manage memory manually.
+            </li>
+          </ol>
         </div>
+      </div>
 
-        <!-- Procedure -->
-        <div class="container" id="procedure">
-          <div class="title">Procedure</div>
+      <!-- Procedure -->
+      <div class="container" id="procedure">
+        <div class="title">Procedure</div>
 
-          <div class="content">
-            <p>
-              This section provides step-by-step instructions for using the
-              Fixed Partitioning Memory Allocation Simulation and understanding
-              how First Fit, Best Fit and Worst Fit allocate memory to
-              processes.
-            </p>
+        <div class="content">
+          <p>
+            This section provides step-by-step instructions for using the
+            Fixed Partitioning Memory Allocation Simulation and understanding
+            how First-Fit, Best-Fit and Worst-Fit allocate memory to
+            processes.
+          </p>
 
-            <span>Steps for Initial Setup</span>
-            <ol>
-              <li>
-                Navigate to the <strong>Practice</strong> section of the V-Lab
-                website.
-              </li>
-              <li>
-                Observe the initial memory blocks displayed in the Memory Blocks
-                Visualization area.
-              </li>
-              <li>
-                Note the predefined memory block sizes (e.g., 100 KB, 500 KB,
-                200 KB, 300 KB and 600 KB) and the process sizes.
-              </li>
-            </ol>
+          <h3>Steps for Initial Setup</h3>
+          <ol>
+            <li>
+              Navigate to the <strong>Practice</strong> section of the V-Lab
+              website.
+            </li>
+            <li>
+              Observe the initial memory blocks displayed in the Memory Blocks
+              Visualization area.
+            </li>
+            <li>
+              Note the predefined memory block sizes (e.g., 100 KB, 500 KB,
+              200 KB, 300 KB and 600 KB) and the process sizes.
+            </li>
+          </ol>
 
-            <span>Steps for Executing Allocation Algorithms</span>
-            <ol>
-              <li>
-                <strong>Enter Memory Blocks:</strong> Enter positive memory
-                block sizes in KB, separated by spaces.
-              </li>
-              <li>
-                <strong>Enter Process Sizes:</strong> Enter the process sizes in
-                KB, separated by spaces. The simulator automatically assigns
-                process IDs such as P1, P2 and P3.
-              </li>
-              <li>
-                <strong>Select Algorithm:</strong> Choose First Fit, Best Fit or
-                Worst Fit using the algorithm buttons.
-              </li>
-              <li>
-                <strong>Start Allocation:</strong> Click the
-                <strong>Allocate</strong> button once to start the automatic
-                simulation.
-              </li>
-              <li>
-                Observe how the simulator checks memory blocks, highlights the
-                blocks being examined and updates the allocation status.
-              </li>
-            </ol>
+          <h3>Steps for Executing Allocation Algorithms</h3>
+          <ol>
+            <li>
+              <strong>Enter Memory Blocks:</strong> Enter positive memory
+              block sizes in KB, separated by spaces.
+            </li>
+            <li>
+              <strong>Enter Process Sizes:</strong> Enter the process sizes in
+              KB, separated by spaces. The simulator automatically assigns
+              process IDs such as P1, P2 and P3.
+            </li>
+            <li>
+              <strong>Select Algorithm:</strong> Choose First-Fit, Best-Fit or
+              Worst-Fit using the algorithm buttons.
+            </li>
+            <li>
+              <strong>Start Allocation:</strong> Click the
+              <strong>Allocate</strong> button once to start the automatic
+              simulation.
+            </li>
+            <li>
+              Observe how the simulator checks memory blocks, highlights the
+              blocks being examined and updates the allocation status.
+            </li>
+          </ol>
 
-            <span
-              >Steps for Analyzing Memory Utilization and Fragmentation</span
-            >
-            <ol>
-              <li>
-                Observe which memory block is selected for each process and
-                compare the selection logic of the three algorithms.
-              </li>
-              <li>
-                Examine the allocated blocks to identify
-                <strong>Internal Fragmentation</strong>, which is the unused
-                space remaining inside an allocated fixed partition.
-              </li>
-              <li>
-                Review the Memory Statistics section to compare total memory,
-                used memory, free memory and internal fragmentation.
-              </li>
-              <li>
-                Observe whether any process remains unallocated because no
-                single free memory block is large enough to accommodate it.
-              </li>
-              <li>
-                Click the <strong>Reset</strong> button, select another
-                algorithm and run the same inputs to compare allocation
-                decisions and memory utilization.
-              </li>
-            </ol>
-          </div>
+          <h3>Steps for Analyzing Memory Utilization and Fragmentation</h3>
+          <ol>
+            <li>
+              Observe which memory block is selected for each process and
+              compare the selection logic of the three algorithms.
+            </li>
+            <li>
+              Examine the allocated blocks to identify
+              <strong>Internal Fragmentation</strong>, which is the unused
+              space remaining inside an allocated fixed partition.
+            </li>
+            <li>
+              Review the Memory Statistics section to compare total memory,
+              used memory, free memory and internal fragmentation.
+            </li>
+            <li>
+              Observe whether any process remains unallocated because no
+              single free memory block is large enough to accommodate it.
+            </li>
+            <li>
+              Click the <strong>Reset</strong> button, select another
+              algorithm and run the same inputs to compare allocation
+              decisions and memory utilization.
+            </li>
+          </ol>
         </div>
+      </div>
 
-        <!-- Practice -->
-        <!-- Practice: Memory Allocation Simulator -->
-        <div class="container" id="practice">
-          <div class="title">Practice</div>
+      <!-- Practice: Memory Allocation Simulator -->
+      <div class="container" id="practice">
+        <div class="title">Practice</div>
 
-          <div class="content">
-            <div class="memory-simulator" id="memorySimulator">
-              <!-- Simulator Header -->
-              <header class="sim-header">
-                <div class="sim-chip">▣</div>
-                <h2>Memory Allocation Simulator</h2>
+        <div class="content">
+          <div class="memory-simulator" id="memorySimulator">
+            <!-- Simulator Header -->
+            <header class="sim-header">
+              <div class="sim-chip">▣</div>
+              <h2>Memory Allocation Simulator</h2>
+              <p>
+                Visualize how First-Fit, Best-Fit and Worst-Fit allocate
+                memory to processes.
+              </p>
+            </header>
+
+            <!-- Algorithm Selection -->
+            <section class="sim-panel algorithm-panel">
+              <div class="panel-heading">
+                <span class="heading-icon">⚙</span>
+                <h3>1. Select Allocation Algorithm</h3>
+              </div>
+
+              <div class="algorithm-buttons">
+                <button class="algorithm-btn active" data-algorithm="first" type="button">
+                  First-Fit
+                </button>
+
+                <button class="algorithm-btn" data-algorithm="best" type="button">
+                  Best-Fit
+                </button>
+
+                <button class="algorithm-btn" data-algorithm="worst" type="button">
+                  Worst-Fit
+                </button>
+              </div>
+
+              <div class="sim-tip">
+                <span>💡</span>
                 <p>
-                  Visualize how First Fit, Best Fit and Worst Fit allocate
-                  memory to processes.
+                  Try different inputs to see how allocation and fragmentation
+                  change!
                 </p>
-              </header>
+              </div>
+            </section>
 
-              <!-- Algorithm Selection -->
-              <section class="sim-panel algorithm-panel">
-                <div class="panel-heading">
+            <!-- Inputs Row -->
+            <section class="input-row">
+              <div class="sim-panel input-panel">
+                <label for="memoryInput">
+                  <span class="heading-icon">▤</span>
+                  2. Memory Blocks (in KB)
+                </label>
+
+                <input type="text" id="memoryInput" value="100 500 200 300 600" placeholder="100 500 200 300 600"
+                  autocomplete="off" />
+
+                <small> Enter block sizes separated by spaces. </small>
+              </div>
+
+              <div class="sim-panel input-panel">
+                <label for="processInput">
                   <span class="heading-icon">⚙</span>
-                  <h3>1. Select Allocation Algorithm</h3>
-                </div>
+                  3. Process Sizes (in KB)
+                </label>
 
-                <div class="algorithm-buttons">
-                  <button
-                    class="algorithm-btn active"
-                    data-algorithm="first"
-                    type="button"
-                  >
-                    First Fit
-                  </button>
+                <input type="text" id="processInput" value="212 417 112 426" placeholder="212 417 112 426"
+                  autocomplete="off" />
 
-                  <button
-                    class="algorithm-btn"
-                    data-algorithm="best"
-                    type="button"
-                  >
-                    Best Fit
-                  </button>
+                <small> Enter process sizes separated by spaces. </small>
+              </div>
 
-                  <button
-                    class="algorithm-btn"
-                    data-algorithm="worst"
-                    type="button"
-                  >
-                    Worst Fit
-                  </button>
-                </div>
+              <div class="sim-panel action-panel">
+                <button class="allocate-btn" id="allocateBtn" type="button">
+                  <span>▶</span> Allocate
+                </button>
 
-                <div class="sim-tip">
-                  <span>💡</span>
-                  <p>
-                    Try different inputs to see how allocation and fragmentation
-                    change!
-                  </p>
-                </div>
-              </section>
+                <button class="reset-btn" id="resetBtn" type="button">
+                  <span>↻</span> Reset
+                </button>
+              </div>
+            </section>
 
-              <!-- Inputs Row -->
-              <section class="input-row">
-                <div class="sim-panel input-panel">
-                  <label for="memoryInput">
-                    <span class="heading-icon">▤</span>
-                    2. Memory Blocks (in KB)
-                  </label>
-
-                  <input
-                    type="text"
-                    id="memoryInput"
-                    value="100 500 200 300 600"
-                    placeholder="100 500 200 300 600"
-                    autocomplete="off"
-                  />
-
-                  <small> Enter block sizes separated by spaces. </small>
-                </div>
-
-                <div class="sim-panel input-panel">
-                  <label for="processInput">
-                    <span class="heading-icon">⚙</span>
-                    3. Process Sizes (in KB)
-                  </label>
-
-                  <input
-                    type="text"
-                    id="processInput"
-                    value="212 417 112 426"
-                    placeholder="212 417 112 426"
-                    autocomplete="off"
-                  />
-
-                  <small> Enter process sizes separated by spaces. </small>
-                </div>
-
-                <div class="sim-panel action-panel">
-                  <button class="allocate-btn" id="allocateBtn" type="button">
-                    <span>▶</span> Allocate
-                  </button>
-
-                  <button class="reset-btn" id="resetBtn" type="button">
-                    <span>↻</span> Reset
-                  </button>
-                </div>
-              </section>
-
-              <!-- Visualization + Process Steps -->
-              <section class="visual-row">
-                <!-- Memory Visualization -->
-                <div class="sim-panel memory-panel">
-                  <div class="section-heading">
-                    <div class="panel-heading">
-                      <span class="heading-icon memory-icon">▱</span>
-                      <h3>4. Memory Blocks Visualization</h3>
-                    </div>
-
-                    <div class="memory-legend">
-                      <span
-                        ><i class="legend allocated-legend"></i> Allocated</span
-                      >
-                      <span><i class="legend free-legend"></i> Free</span>
-                      <span
-                        ><i class="legend checking-legend"></i> Checking</span
-                      >
-                    </div>
-                  </div>
-
-                  <div id="memoryBlocks" class="memory-blocks">
-                    <!-- Memory blocks generated by JavaScript -->
-                  </div>
-
-                  <div class="memory-axis">
-                    <span>Memory block sizes (KB)</span>
-                  </div>
-                </div>
-
-                <!-- Current Process and Simulation Steps -->
-                <div class="sim-panel process-panel">
+            <!-- Visualization + Process Steps -->
+            <section class="visual-row">
+              <!-- Memory Visualization -->
+              <div class="sim-panel memory-panel">
+                <div class="section-heading">
                   <div class="panel-heading">
-                    <span class="heading-icon">▶</span>
-                    <h3>5. Current Process &amp; Simulation Steps</h3>
+                    <span class="heading-icon memory-icon">▱</span>
+                    <h3>4. Memory Blocks Visualization</h3>
                   </div>
 
-                  <div class="current-process-card">
-                    <span class="card-label">Current Process</span>
-
-                    <strong id="currentProcess">Ready to start</strong>
-
-                    <div class="process-status" id="processStatus">
-                      Waiting for simulation
-                    </div>
-                  </div>
-
-                  <div class="steps-card">
-                    <div class="steps-heading">Simulation Steps</div>
-
-                    <ol id="simulationSteps" class="simulation-steps">
-                      <li class="empty-step">
-                        Click Allocate to begin the simulation.
-                      </li>
-                    </ol>
-                  </div>
-
-                  <div
-                    class="simulation-status"
-                    id="simulationStatus"
-                    aria-live="polite"
-                  >
-                    Ready to simulate
+                  <div class="memory-legend">
+                    <span><i class="legend allocated-legend"></i> Allocated</span>
+                    <span><i class="legend free-legend"></i> Free</span>
+                    <span><i class="legend checking-legend"></i> Checking</span>
                   </div>
                 </div>
-              </section>
 
-              <!-- Statistics: Full Width -->
-              <section class="sim-panel statistics-panel">
+                <div id="memoryBlocks" class="memory-blocks">
+                  <!-- Memory blocks generated by JavaScript -->
+                </div>
+
+                <div class="memory-axis">
+                  <span>Memory block sizes (KB)</span>
+                </div>
+              </div>
+
+              <!-- Current Process and Simulation Steps -->
+              <div class="sim-panel process-panel">
                 <div class="panel-heading">
-                  <span class="heading-icon stats-icon">▥</span>
-                  <h3>6. Memory Statistics</h3>
+                  <span class="heading-icon">▶</span>
+                  <h3>5. Current Process &amp; Simulation Steps</h3>
                 </div>
 
-                <div class="statistics-grid">
-                  <div class="stat-card stat-total">
-                    <span class="stat-icon">▤</span>
-                    <div>
-                      <span class="stat-label">Total Memory</span>
-                      <strong id="totalMemory">1700 KB</strong>
-                    </div>
-                  </div>
+                <div class="current-process-card">
+                  <span class="card-label">Current Process</span>
 
-                  <div class="stat-card stat-used">
-                    <span class="stat-icon">◕</span>
-                    <div>
-                      <span class="stat-label">Used Memory</span>
-                      <strong id="usedMemory">0 KB</strong>
-                    </div>
-                  </div>
+                  <strong id="currentProcess">Ready to start</strong>
 
-                  <div class="stat-card stat-free">
-                    <span class="stat-icon">▦</span>
-                    <div>
-                      <span class="stat-label">Free Memory</span>
-                      <strong id="freeMemory">1700 KB</strong>
-                    </div>
-                  </div>
-
-                  <div class="stat-card stat-fragmentation">
-                    <span class="stat-icon">▤</span>
-                    <div>
-                      <span class="stat-label">Internal Fragmentation</span>
-                      <strong id="internalFragmentation">0 KB</strong>
-                    </div>
+                  <div class="process-status" id="processStatus">
+                    Waiting for simulation
                   </div>
                 </div>
-              </section>
-            </div>
-          </div>
-        </div>
-        <!-- End Memory Allocation Simulator -->
 
-        <!-- Code -->
-        <div class="container" id="code">
-          <div class="title">Code</div>
-          <p>Example programs</p>
-          <div class="switch-container">
-            <input
-              class="togswt"
-              type="radio"
-              id="cppRadio"
-              name="codeSwitch"
-              checked
-            />
-            <label for="cppRadio">C++</label>
+                <div class="steps-card">
+                  <div class="steps-heading">Simulation Steps</div>
 
-            <input
-              class="togswt"
-              type="radio"
-              id="pythonRadio"
-              name="codeSwitch"
-            />
-            <label for="pythonRadio">Python</label>
-          </div>
+                  <ol id="simulationSteps" class="simulation-steps">
+                    <li class="empty-step">
+                      Click Allocate to begin the simulation.
+                    </li>
+                  </ol>
+                </div>
 
-          <div class="code-blocks">
-            <div id="cppCode" class="code-block active">
-              <div class="code-content">
-                <pre><code class="language-cpp">// C++ Code Example</code></pre>
-                <button class="copy-button">Copy</button>
+                <div class="simulation-status" id="simulationStatus" aria-live="polite">
+                  Ready to simulate
+                </div>
               </div>
-            </div>
-            <div id="pythonCode" class="code-block">
-              <div class="code-content">
-                <pre><code class="language-python"># Python Code Example</code></pre>
-                <button class="copy-button">Copy</button>
+            </section>
+
+            <!-- Statistics: Full Width -->
+            <section class="sim-panel statistics-panel">
+              <div class="panel-heading">
+                <span class="heading-icon stats-icon">▥</span>
+                <h3>6. Memory Statistics</h3>
               </div>
+
+              <div class="statistics-grid">
+                <div class="stat-card stat-total">
+                  <span class="stat-icon">▤</span>
+                  <div>
+                    <span class="stat-label">Total Memory</span>
+                    <strong id="totalMemory">1700 KB</strong>
+                  </div>
+                </div>
+
+                <div class="stat-card stat-used">
+                  <span class="stat-icon">◕</span>
+                  <div>
+                    <span class="stat-label">Used Memory</span>
+                    <strong id="usedMemory">0 KB</strong>
+                  </div>
+                </div>
+
+                <div class="stat-card stat-free">
+                  <span class="stat-icon">▦</span>
+                  <div>
+                    <span class="stat-label">Free Memory</span>
+                    <strong id="freeMemory">1700 KB</strong>
+                  </div>
+                </div>
+
+                <div class="stat-card stat-fragmentation">
+                  <span class="stat-icon">▤</span>
+                  <div>
+                    <span class="stat-label">Internal Fragmentation</span>
+                    <strong id="internalFragmentation">0 KB</strong>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+      <!-- End Memory Allocation Simulator -->
+
+      <!-- Code -->
+      <div class="container" id="code">
+        <div class="title">Code</div>
+        <div class="switch-container">
+          <input class="togswt" type="radio" id="cppRadio" name="codeSwitch" checked />
+          <label for="cppRadio">C++</label>
+
+          <input class="togswt" type="radio" id="pythonRadio" name="codeSwitch" />
+          <label for="pythonRadio">Python</label>
+        </div>
+
+        <div class="code-blocks">
+          <div id="cppCode" class="code-block active">
+            <div class="code-content">
+              <pre><code class="language-cpp">
+#include &lt;iostream&gt;
+#include &lt;vector&gt;
+using namespace std;
+
+void memoryAllocation(vector&lt;int&gt; blocks, vector&lt;int&gt; processes, int choice) {
+    int n = blocks.size();
+    int m = processes.size();
+
+    vector&lt;bool&gt; used(n, false);
+    vector&lt;int&gt; allocation(m, -1);
+
+    // Process each process one by one
+    for (int i = 0; i < m; i++) {
+        int selected = -1;
+
+        for (int j = 0; j < n; j++) {
+            // Check whether the block is free and large enough
+            if (!used[j] && blocks[j] >= processes[i]) {
+                // First-Fit
+                if (choice == 1) {
+                    selected = j;
+                    break;
+                }
+                // Best-Fit
+                else if (choice == 2) { 
+                    if (selected == -1 || blocks[j] < blocks[selected]) {
+                        selected = j;
+                    }
+                }
+                // Worst-Fit
+                else if (choice == 3) {
+                    if (selected == -1 || blocks[j] > blocks[selected]) {
+                        selected = j;
+                    }
+                }
+            }
+        }
+
+        // Allocate the selected block to the process
+        if (selected != -1) {
+            allocation[i] = selected;
+            used[selected] = true;
+        }
+    }
+
+    // Display the results
+    if (choice == 1)
+        cout << "\nFirst-Fit ALLOCATION\n";
+    else if (choice == 2)
+        cout << "\nBest-Fit ALLOCATION\n";
+    else
+        cout << "\nWorst-Fit ALLOCATION\n";
+
+    cout << "Process\tSize\tBlock\tUnused Memory\n";
+
+    for (int i = 0; i < m; i++) {
+        cout << "P" << i + 1 << "\t" << processes[i] << "\t";
+
+        if (allocation[i] != -1) {
+            int blockIndex = allocation[i];
+            cout << blockIndex + 1 << "\t" << blocks[blockIndex] - processes[i] << endl;
+        }
+        else {
+            cout << "Not Allocated\t-\n";
+        }
+    }
+}
+
+int main()
+{
+    int n, m;
+
+    cout << "Enter number of memory blocks: ";
+    cin >> n;
+
+    vector&lt;int&gt; blocks(n);
+
+    cout << "Enter sizes of memory blocks:\n";
+    for (int i = 0; i < n; i++) {
+        cin >> blocks[i];
+    }
+
+    cout << "Enter number of processes: ";
+    cin >> m;
+
+    vector&lt;int&gt; processes(m);
+
+    cout << "Enter sizes of processes:\n";
+    for (int i = 0; i < m; i++) {
+        cin >> processes[i];
+    }
+
+    // Run each algorithm independently
+    memoryAllocation(blocks, processes, 1);
+    memoryAllocation(blocks, processes, 2);
+    memoryAllocation(blocks, processes, 3);
+
+    return 0;
+}</code></pre>
+              <button class="copy-button">Copy</button>
+            </div>
+          </div>
+
+          <div id="pythonCode" class="code-block">
+            <div class="code-content">
+              <pre><code class="language-python">
+def memory_allocation(blocks, processes, fit_type):
+    n = len(blocks)
+    m = len(processes)
+
+    # False means the block is free
+    used = [False] * n
+
+    # -1 means the process is not allocated
+    allocation = [-1] * m
+
+    # Allocate memory to each process
+    for i in range(m):
+        selected = -1
+
+        # Check every memory block
+        for j in range(n):
+            # Check if block is free and large enough
+            if not used[j] and blocks[j] >= processes[i]:
+
+                # First-Fit
+                if fit_type == "first":
+                    selected = j
+                    break
+
+                # Best-Fit
+                elif fit_type == "best":
+                    if selected == -1 or blocks[j] < blocks[selected]:
+                        selected = j
+
+                # Worst-Fit
+                elif fit_type == "worst":
+                    if selected == -1 or blocks[j] > blocks[selected]:
+                        selected = j
+
+        # If a suitable block is found
+        if selected != -1:
+            allocation[i] = selected
+            used[selected] = True
+
+    # Display the result
+    print("\n", fit_type.upper(), "FIT ALLOCATION")
+    print("Process\tSize\tBlock\tUnused Memory")
+
+    for i in range(m):
+        print(f"P{i + 1}\t{processes[i]}\t", end="")
+
+        if allocation[i] != -1:
+            block_index = allocation[i]
+            unused = blocks[block_index] - processes[i]
+            print(f"{block_index + 1}\t{unused}")
+        else:
+            print("Not Allocated\t-")
+
+
+# Main program
+n = int(input("Enter number of memory blocks: "))
+
+blocks = list(map(int, input("Enter memory block sizes separated by spaces: ").split()))
+
+m = int(input("Enter number of processes: "))
+
+processes = list(map(int, input("Enter process sizes separated by spaces: ").split()))
+
+# Run all three algorithms
+memory_allocation(blocks, processes, "first")
+memory_allocation(blocks, processes, "best")
+memory_allocation(blocks, processes, "worst")
+              </code></pre>
+              <button class="copy-button">Copy</button>
             </div>
           </div>
         </div>
+      </div>
 
-        <!-- Results -->
-        <div class="container" id="result">
-          <div class="title">Result</div>
+      <!-- Results -->
+      <div class="container" id="result">
+        <div class="title">Result</div>
 
-          <div class="content">
-            <p>
-              The simulation of contiguous memory allocation techniques — First
-              Fit, Best Fit, and Worst Fit — was successfully implemented in a
-              fixed partitioned memory environment.
-            </p>
+        <div class="content">
+          <p>
+            The simulation of contiguous memory allocation techniques —
+            First-Fit, Best-Fit and Worst-Fit — was successfully implemented
+            in a fixed partitioned memory environment.
+          </p>
 
-            <p>
-              The simulator demonstrates how processes are allocated to
-              available memory partitions using different allocation strategies.
-            </p>
+          <p>
+            The simulator demonstrates how processes are allocated to
+            available memory partitions using different allocation strategies.
+          </p>
 
-            <ul>
-              <li>
-                <strong>First Fit:</strong> Allocates a process to the first
-                available partition that is large enough.
-              </li>
-              <li>
-                <strong>Best Fit:</strong> Allocates a process to the smallest
-                available partition that can accommodate it.
-              </li>
-              <li>
-                <strong>Worst Fit:</strong> Allocates a process to the largest
-                available partition that can accommodate it.
-              </li>
-            </ul>
+          <ul>
+            <li>
+              <strong>First-Fit:</strong> Allocates a process to the first
+              available partition that is large enough.
+            </li>
+            <li>
+              <strong>Best-Fit:</strong> Allocates a process to the smallest
+              available partition that can accommodate it.
+            </li>
+            <li>
+              <strong>Worst-Fit:</strong> Allocates a process to the largest
+              available partition that can accommodate it.
+            </li>
+          </ul>
 
-            <p>
-              The simulator displays allocated processes, unused memory, and
-              internal fragmentation, helping users compare the behavior of the
-              three algorithms.
-            </p>
+          <p>
+            The simulator displays allocated processes, unused memory, and
+            internal fragmentation, helping users compare the behavior of the
+            three algorithms.
+          </p>
 
-            <p>
-              <strong>Conclusion:</strong> The simulation illustrates that
-              memory allocation strategies can produce different allocation
-              outcomes depending on process sizes and the available memory
-              partitions.
-            </p>
-          </div>
+          <p>
+            <strong>Conclusion:</strong> The simulation illustrates that
+            memory allocation strategies can produce different allocation
+            outcomes depending on process sizes and the available memory
+            partitions.
+          </p>
+        </div>
+      </div>
+
+      <!-- Quiz -->
+      <div class="container" id="quiz">
+        <div class="title">Quiz</div>
+
+        <!-- Quiz Instructions -->
+        <div id="quiz-instructions">
+          <h3>QUIZ INSTRUCTIONS</h3>
+          <ul>
+            <li>Read each question carefully before answering.</li>
+            <li>Select the correct option(s).</li>
+            <li>Click <b>Next</b> to move to the following question.</li>
+            <li>
+              At the end, you can view your quiz report and retake the quiz if
+              needed.
+            </li>
+          </ul>
+          <button id="start-quiz-btn" class="start-button">Start Quiz</button>
         </div>
 
-        <!-- Quiz -->
-        <div class="container" id="quiz">
-          <div class="title">Quiz</div>
+        <!-- Quiz Questions Section (Initially Hidden) -->
+        <div id="quiz-content" style="display: none">
+          <p id="question"></p>
+          <div id="choices" class="choices"></div>
+          <button id="next-btn" class="quiz-button" disabled>Next</button>
 
-          <!-- Quiz Instructions -->
-          <div id="quiz-instructions">
-            <h3>QUIZ INSTRUCTIONS</h3>
-            <ul>
-              <li>Read each question carefully before answering.</li>
-              <li>Select the correct option(s).</li>
-              <li>Click <b>Next</b> to move to the following question.</li>
-              <li>
-                At the end, you can view your quiz report and retake the quiz if
-                needed.
-              </li>
-            </ul>
-            <button id="start-quiz-btn" class="start-button">Start Quiz</button>
-          </div>
 
-          <!-- Quiz Questions Section (Initially Hidden) -->
-          <div id="quiz-content" style="display: none">
-            <p id="question"></p>
-            <div id="choices" class="choices"></div>
-            <button id="next-btn" class="quiz-button" disabled>Next</button>
+          <div id="quiz-report" style="display: none"></div>
 
-            <div id="quiz-report" style="display: none"></div>
-            <button id="retake-btn" style="display: none">Retake Quiz</button>
-            <button
-              class="quiz-button"
-              id="see-answers-btn"
-              style="display: none"
-            >
+          <div class="quiz-actions">
+            <button id="retake-btn" style="display: none">
+              Retake Quiz
+            </button>
+
+            <button class="quiz-button" id="see-answers-btn" style="display: none">
               See Answers
             </button>
           </div>
+
         </div>
 
         <!-- References -->
@@ -876,10 +888,8 @@
           <div class="content">
             <ul class="ref-list">
               <li>
-                <span
-                  >Silberschatz, Abraham, Peter B. Galvin, and Greg Gagne.
-                  Operating System Concepts.</span
-                >
+                <span>Silberschatz, Abraham, Peter B. Galvin, and Greg Gagne.
+                  Operating System Concepts.</span>
               </li>
               <li>
                 <span>GeeksforGeeks - Operating Systems</span>
@@ -893,36 +903,77 @@
           <div class="title">Team & Tools</div>
           <div class="content">
             <h3>Students</h3>
-            <ul class="ref-list">
+            <ul class="team-list">
               <li>
-                <a href="profile url if you have" rel="noopener" target="_blank"
-                  ><span>Rohit Patel from PMCs</span>
-                  <span>Vidhishree from PMCs</span>
+                <div class="person-info">
+                  <span class="name">Rohit Patel</span>
+                  <span class="role">B.Sc. (PMCS)</span>
+                  <span class="year">3rd Year</span>
+                </div>
+                <a href="https://github.com/Rohit-Patel-Techie" rel="noopener" target="_blank" class="github-link"
+                  title="Visit GitHub Profile">
+                  <!-- Inline SVG GitHub Logo -->
+                  <svg height="28" width="28" viewBox="0 0 16 16" fill="currentColor">
+                    <path
+                      d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z">
+                    </path>
+                  </svg>
+                </a>
+              </li>
+              <li>
+                <div class="person-info">
+                  <span class="name">Vidhishree</span>
+                  <span class="role">B.Sc. (PMCS)</span>
+                  <span class="year">3rd Year</span>
+                </div>
+                <a href="https://github.com/vidhishree58" rel="noopener" target="_blank" class="github-link"
+                  title="Visit GitHub Profile">
+                  <svg height="28" width="28" viewBox="0 0 16 16" fill="currentColor">
+                    <path
+                      d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z">
+                    </path>
+                  </svg>
                 </a>
               </li>
             </ul>
+
             <h3>Mentors</h3>
-            <ul class="ref-list">
-              <li><span>Ms. Nishu Mam</span></li>
+            <ul class="team-list mentors">
+              <li>
+                <div class="person-info">
+                  <span class="name">Ms. Nishu Singh</span>
+                  <span class="role">Project Mentor</span>
+                </div>
+              </li>
+              <li>
+                <div class="person-info">
+                  <span class="name">Prof. Sharanjit Kaur</span>
+                  <span class="role">Project Mentor</span>
+                </div>
+              </li>
             </ul>
+
             <h3>Tools Used</h3>
             <ul class="tools-list">
               <li>
-                <span>Vanilla HTML, CSS, JS - for creating the web page</span>
+                <span class="tool-title">Vanilla HTML, CSS & JS</span>
+                <span class="tool-desc">For creating the responsive web pages and simulation logic
+                  without external frameworks.</span>
               </li>
             </ul>
           </div>
         </div>
-      </section>
-    </div>
-    <script>
-      hljs.highlightAll();
-      function toggleMenu() {
-        const menu = document.querySelector(".nav-menu");
-        menu.classList.toggle("show");
-      }
-    </script>
-    <script src="js/script.js"></script>
-    <script src="js/simulation.js"></script>
-  </body>
+    </section>
+  </div>
+  <script>
+    hljs.highlightAll();
+    function toggleMenu() {
+      const menu = document.querySelector(".nav-menu");
+      menu.classList.toggle("show");
+    }
+  </script>
+  <script src="js/script.js"></script>
+  <script src="js/simulation.js"></script>
+</body>
+
 </html>

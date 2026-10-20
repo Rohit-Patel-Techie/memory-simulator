@@ -125,7 +125,7 @@
           <div>
             <p>
               <strong>The operating system</strong> maintains a list of free
-              memory blocks (holes) and allocated blocks, and must decide
+              memory blocks (holes) and allocated blocks and must decide
               which free block to assign when a new process arrives using
               allocation strategies such as First-Fit, Best-Fit and Worst-Fit.
             </p>
@@ -135,7 +135,7 @@
 
           <p>
             The main memory is a combination of two main portions - one for
-            the operating system and the other for the user program.
+            the <strong>operating system</strong> and the other for the <strong>user program.</strong>
           </p>
           <img src="images/main-memory-portions-01.png" alt="Main Memory Portions" />
 
@@ -291,8 +291,7 @@
                   process is allocated a memory block larger than its
                   requested size. The leftover space strictly inside that
                   specific block is permanently wasted.<br />
-                  <img src="./images/internal_fragmentation_01.png"
-                    alt="Diagram showing a 212KB process inside a 500KB block with 288KB visually highlighted as wasted internal fragmentation" />
+                  <img src="./images/internal_fragmentation_01.png" alt="Internal fragmentation" />
                 </li>
                 <li>
                   <strong>External Fragmentation:</strong> Occurs when the
@@ -300,8 +299,7 @@
                   a process request, but the memory is not contiguous (it is
                   scattered across multiple blocks), causing the OS to reject
                   the process.<br />
-                  <img src="./images/external_fragmentation_01.png"
-                    alt="Diagram showing a 350KB process being rejected because the 450KB total free space is split into two separate blocks" />
+                  <img src="./images/external_fragmentation_01.png" alt="External_Fragmentation" />
                 </li>
               </ul>
             </li>
@@ -310,22 +308,32 @@
           <h3>Applications in the Real World</h3>
           <ol>
             <li>
-              <strong>Legacy Mainframe Operating Systems:</strong> IBM's
-              OS/360 utilized fixed partitioning (MFT - Multiprogramming with
-              a Fixed number of Tasks) for early batch processing
-              environments.
+              <strong>Legacy Operating Systems:</strong> Older operating systems used
+              contiguous memory allocation to assign each program a single continuous
+              block of memory for execution.
             </li>
             <li>
-              <strong>Embedded Systems:</strong> Hardware with strict,
-              unchanging memory constraints often uses fixed memory mapping to
-              guarantee critical system processes always have reserved
-              execution space without dynamic overhead.
+              <strong>Embedded Systems:</strong> Devices such as washing machines,
+              traffic lights and industrial controllers can use contiguous memory
+              blocks to store program instructions and data, helping them operate
+              efficiently with limited memory.
             </li>
             <li>
-              <strong>Custom Software Memory Allocators:</strong>
-              High-performance C++ applications and game engines often bypass
-              the OS to build custom memory pools utilizing variations of
-              First/Best-Fit to manage memory manually.
+              <strong>Real-Time Systems:</strong> Systems that require predictable
+              responses, such as industrial control systems, can reserve continuous
+              memory blocks for important tasks to reduce memory management overhead.
+            </li>
+            <li>
+              <strong>Games and High-Performance Applications:</strong> Game engines
+              and performance-intensive applications may allocate large, continuous
+              memory blocks for graphics, objects and other data to improve
+              performance and simplify memory management.
+            </li>
+            <li>
+              <strong>Simple Computer Systems:</strong> Small computers and basic
+              devices can use contiguous memory allocation because it is simple to
+              implement and manage, especially when memory requirements are known
+              in advance.
             </li>
           </ol>
         </div>
@@ -828,7 +836,7 @@ memory_allocation(blocks, processes, "worst")
           </ul>
 
           <p>
-            The simulator displays allocated processes, unused memory, and
+            The simulator displays allocated processes, unused memory and
             internal fragmentation, helping users compare the behavior of the
             three algorithms.
           </p>
@@ -881,88 +889,89 @@ memory_allocation(blocks, processes, "worst")
           </div>
 
         </div>
+      </div>
 
-        <!-- References -->
-        <div class="container" id="references">
-          <div class="title">References</div>
-          <div class="content">
-            <ul class="ref-list">
-              <li>
-                <span>Silberschatz, Abraham, Peter B. Galvin, and Greg Gagne.
-                  Operating System Concepts.</span>
-              </li>
-              <li>
-                <span>GeeksforGeeks - Operating Systems</span>
-              </li>
-            </ul>
-          </div>
+      <!-- References -->
+      <div class="container" id="references">
+        <div class="title">References</div>
+        <div class="content">
+          <ul class="ref-list">
+            <li>
+              <span>Silberschatz, Abraham, Peter B. Galvin, and Greg Gagne.
+                Operating System Concepts.</span>
+            </li>
+            <li>
+              <span>GeeksforGeeks - Operating Systems</span>
+            </li>
+          </ul>
         </div>
+      </div>
 
-        <!-- Team & Tools -->
-        <div class="container" id="tnt">
-          <div class="title">Team & Tools</div>
-          <div class="content">
-            <h3>Students</h3>
-            <ul class="team-list">
-              <li>
-                <div class="person-info">
-                  <span class="name">Rohit Patel</span>
-                  <span class="role">B.Sc. (PMCS)</span>
-                  <span class="year">3rd Year</span>
-                </div>
-                <a href="https://github.com/Rohit-Patel-Techie" rel="noopener" target="_blank" class="github-link"
-                  title="Visit GitHub Profile">
-                  <!-- Inline SVG GitHub Logo -->
-                  <svg height="28" width="28" viewBox="0 0 16 16" fill="currentColor">
-                    <path
-                      d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z">
-                    </path>
-                  </svg>
-                </a>
-              </li>
-              <li>
-                <div class="person-info">
-                  <span class="name">Vidhishree</span>
-                  <span class="role">B.Sc. (PMCS)</span>
-                  <span class="year">3rd Year</span>
-                </div>
-                <a href="https://github.com/vidhishree58" rel="noopener" target="_blank" class="github-link"
-                  title="Visit GitHub Profile">
-                  <svg height="28" width="28" viewBox="0 0 16 16" fill="currentColor">
-                    <path
-                      d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z">
-                    </path>
-                  </svg>
-                </a>
-              </li>
-            </ul>
+      <!-- Team & Tools -->
+      <div class="container" id="tnt">
+        <div class="title">Team & Tools</div>
+        <div class="content">
+          <h3>Students</h3>
+          <ul class="team-list">
+            <li>
+              <div class="person-info">
+                <span class="name">Rohit Patel</span>
+                <span class="role">B.Sc. (PMCS)</span>
+                <span class="year">3rd Year</span>
+              </div>
+              <a href="https://github.com/Rohit-Patel-Techie" rel="noopener" target="_blank" class="github-link"
+                title="Visit GitHub Profile">
+                <!-- Inline SVG GitHub Logo -->
+                <svg height="28" width="28" viewBox="0 0 16 16" fill="currentColor">
+                  <path
+                    d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z">
+                  </path>
+                </svg>
+              </a>
+            </li>
+            <li>
+              <div class="person-info">
+                <span class="name">Vidhishree</span>
+                <span class="role">B.Sc. (PMCS)</span>
+                <span class="year">3rd Year</span>
+              </div>
+              <a href="https://github.com/vidhishree58" rel="noopener" target="_blank" class="github-link"
+                title="Visit GitHub Profile">
+                <svg height="28" width="28" viewBox="0 0 16 16" fill="currentColor">
+                  <path
+                    d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z">
+                  </path>
+                </svg>
+              </a>
+            </li>
+          </ul>
 
-            <h3>Mentors</h3>
-            <ul class="team-list mentors">
-              <li>
-                <div class="person-info">
-                  <span class="name">Ms. Nishu Singh</span>
-                  <span class="role">Project Mentor</span>
-                </div>
-              </li>
-              <li>
-                <div class="person-info">
-                  <span class="name">Prof. Sharanjit Kaur</span>
-                  <span class="role">Project Mentor</span>
-                </div>
-              </li>
-            </ul>
+          <h3>Mentors</h3>
+          <ul class="team-list mentors">
+            <li>
+              <div class="person-info">
+                <span class="name">Ms. Nishu Singh</span>
+                <span class="role">Project Mentor</span>
+              </div>
+            </li>
+            <li>
+              <div class="person-info">
+                <span class="name">Prof. Sharanjit Kaur</span>
+                <span class="role">Project Mentor</span>
+              </div>
+            </li>
+          </ul>
 
-            <h3>Tools Used</h3>
-            <ul class="tools-list">
-              <li>
-                <span class="tool-title">Vanilla HTML, CSS & JS</span>
-                <span class="tool-desc">For creating the responsive web pages and simulation logic
-                  without external frameworks.</span>
-              </li>
-            </ul>
-          </div>
+          <h3>Tools Used</h3>
+          <ul class="tools-list">
+            <li>
+              <span class="tool-title">Vanilla HTML, CSS & JS</span>
+              <span class="tool-desc">For creating the responsive web pages and simulation logic
+                without external frameworks.</span>
+            </li>
+          </ul>
         </div>
+      </div>
     </section>
   </div>
   <script>

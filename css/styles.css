@@ -1141,8 +1141,9 @@ pre {
 @media (max-width: 520px) {
   #quiz {
     width: calc(100% - 20px);
-    margin: 15px auto;
+    margin: 15px auto 50px auto;
     padding: 16px;
+    padding-bottom: 30px;
   }
 
   #quiz-instructions {
@@ -1540,13 +1541,20 @@ pre {
     font-size: 2rem;
   }
 
-  /* Sticky navigation tiles */
+  .navigation-wrapper {
+    position: relative;
+    top: auto;
+    min-height: auto;
+  }
+
+  /* Sticky navigation tiles on tablets/mobile */
   .sticky-nav-wrapper .navigation {
-    left: 50%;
-    transform: scale(0.85);
-    width: 100%;
+    position: static;
+    left: auto;
+    transform: none;
+    width: auto;
+    min-width: 0;
     padding: 4px;
-    min-width: 450px;
     font-size: 0;
   }
 
@@ -1625,10 +1633,10 @@ pre {
 /* ---- Very small phones: <= 480px ---- */
 @media (max-width: 480px) {
   .sticky-nav-wrapper .navigation {
-    transform: translateX(-50%) scale(0.8);
-    min-width: 400px;
-    margin-top: 12px;
-    position: fixed;
+    position: static;
+    transform: none;
+    min-width: 0;
+    margin-top: 0;
   }
 
   .sticky-nav-wrapper .navigation .link {
@@ -1644,7 +1652,8 @@ pre {
 /* ---- Tiny phones: <= 340px ---- */
 @media (max-width: 340px) {
   .sticky-nav-wrapper .navigation {
-    transform: translateX(-50%) scale(0.75);
-    min-width: 300px;
+    position: static;
+    transform: none;
+    min-width: 0;
   }
 }

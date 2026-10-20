@@ -12,12 +12,16 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // sticky nav 
+  // sticky nav (active only on desktop/laptop screens to prevent mobile jitter loop)
   const navWrapper = document.getElementById("navWrapper");
   const trigger = document.querySelector(".sticky-trigger");
 
   const observer = new IntersectionObserver(
     (entries) => {
+      if (window.innerWidth <= 840) {
+        navWrapper.classList.remove("sticky-nav-wrapper");
+        return;
+      }
       entries.forEach((entry) => {
         if (!entry.isIntersecting) {
           navWrapper.classList.add("sticky-nav-wrapper");
@@ -33,6 +37,12 @@ document.addEventListener("DOMContentLoaded", function () {
   );
 
   observer.observe(trigger);
+
+  window.addEventListener("resize", function () {
+    if (window.innerWidth <= 840) {
+      navWrapper.classList.remove("sticky-nav-wrapper");
+    }
+  });
 
   // back to top logic
   const backToTopBtn = document.getElementById("backToTop");

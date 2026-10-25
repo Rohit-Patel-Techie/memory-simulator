@@ -17,6 +17,8 @@
   const processInput = $("#processInput");
   const memoryContainer = $("#memoryBlocks");
   const stepsContainer = $("#simulationSteps");
+  const stepsHeadingEl = $("#stepsHeading");
+  const queueEl = $("#processQueue");
 
   const allocateBtn = $("#allocateBtn");
   const resetBtn = $("#resetBtn");
@@ -42,6 +44,8 @@
 
   let currentBlockId = null;
   let currentBlockState = "";
+  let currentBlockLabel = "";
+  let activeProcessId = null; // process currently being allocated
   let stepCount = 0;
 
   const delay = (ms) =>
@@ -53,6 +57,13 @@
       best: "Best-Fit",
       worst: "Worst-Fit"
     }[algorithm];
+  }
+
+  function makeEl(tag, className, text) {
+    const element = document.createElement(tag);
+    if (className) element.className = className;
+    if (text !== undefined) element.textContent = text;
+    return element;
   }
 
   function parseSizes(value) {
@@ -109,6 +120,22 @@
   }
 
   /* -------------------------------------------------------
+     BLOCK HIGHLIGHT HELPERS
+     ------------------------------------------------------- */
+
+  function setHighlight(blockId, state, label) {
+    currentBlockId = blockId;
+    currentBlockState = state;
+    currentBlockLabel = label;
+  }
+
+  function clearBlockHighlight() {
+    currentBlockId = null;
+    currentBlockState = "";
+    currentBlockLabel = "";
+  }
+
+  /* -------------------------------------------------------
      MEMORY VISUALIZATION
      ------------------------------------------------------- */
 
@@ -120,19 +147,29 @@
 
       element.className = "memory-block";
       element.dataset.blockId = block.id;
+      element.title =
+        `Block ${block.id}: initial partition size ${block.size} KB`;
 
       // Larger memory blocks appear wider.
       element.style.flexGrow = block.size;
       element.style.flexShrink = "1";
       element.style.flexBasis = "0";
 
-      if (block.process !== null) {
-        element.classList.add("allocated");
-      } else {
-        element.classList.add("free");
+      const isAllocated = block.process !== null;
+
+      // Allocated to the process that is being handled right now?
+      const isNew =
+        isAllocated && block.process === `P${activeProcessId}`;
+
+      element.classList.add(isAllocated ? "allocated" : "free");
+
+      if (isNew) {
+        element.classList.add("just-allocated");
       }
 
-      if (block.id === currentBlockId) {
+      const isCurrent = block.id === currentBlockId;
+
+      if (isCurrent) {
         element.classList.add("checking");
 
         if (currentBlockState === "failed") {
@@ -144,42 +181,113 @@
         }
       }
 
-      const header = document.createElement("div");
-      header.className = "memory-block-header";
-      header.textContent = `Block ${block.id}`;
+      /* ---- Header: block number + INITIAL size ---- */
+      const header = makeEl("div", "memory-block-header");
+      header.append(
+        makeEl("div", "block-title", `Block ${block.id}`),
+        makeEl("div", "block-size", `${block.size} KB`),
+        makeEl("div", "block-caption", "initial size")
+      );
 
-      const content = document.createElement("div");
-      content.className = "memory-block-content";
+      /* ---- Status tag ---- */
+      const tag = makeEl(
+        "div",
+        "block-tag",
+        isCurrent ? currentBlockLabel : ""
+      );
 
-      const mainText = document.createElement("strong");
-      const sizeText = document.createElement("span");
+      /* ---- Body ---- */
+      const body = makeEl("div", "memory-block-body");
 
-      if (block.process !== null) {
-        mainText.textContent = block.process;
-        sizeText.textContent = `${block.processSize} KB`;
-
+      if (isAllocated) {
         const fragment = block.size - block.processSize;
-        const fragmentText = document.createElement("span");
 
-        fragmentText.className = "fragmentation-label";
+        const used = makeEl("div", "block-used");
+        used.style.flexGrow = block.processSize;
+        used.append(
+          makeEl("strong", "", block.process),
+          makeEl("span", "", `uses ${block.processSize} KB`)
+        );
 
-        if (fragment > 0) {
-          fragmentText.textContent =
-            `${fragment} KB internal fragmentation`;
-        } else {
-          fragmentText.textContent = "Fully used";
-        }
+        const frag = makeEl(
+          "div",
+          fragment > 0 ? "block-frag" : "block-frag none"
+        );
+        frag.style.flexGrow = fragment;
+        frag.append(
+          makeEl("div", "block-frag-label", "Internal fragmentation"),
+          makeEl("div", "block-frag-value", `${fragment} KB`)
+        );
 
-        content.append(mainText, sizeText, fragmentText);
+        body.append(used, frag);
       } else {
-        mainText.textContent = "FREE";
-        sizeText.textContent = `${block.size} KB`;
+        const free = makeEl("div", "block-free");
+        free.append(
+          makeEl("strong", "", "FREE"),
+          makeEl("span", "", `${block.size} KB available`)
+        );
 
-        content.append(mainText, sizeText);
+        const frag = makeEl("div", "block-frag none");
+        frag.style.flexGrow = 0;
+        frag.style.flexBasis = "auto";
+        frag.style.minHeight = "44px";
+        frag.append(
+          makeEl("div", "block-frag-label", "Internal fragmentation"),
+          makeEl("div", "block-frag-value", "0 KB")
+        );
+
+        body.append(free, frag);
       }
 
-      element.append(header, content);
+      element.append(header, tag, body);
       memoryContainer.appendChild(element);
+    });
+  }
+
+  /* -------------------------------------------------------
+     PROCESS QUEUE (waiting / current / done)
+     ------------------------------------------------------- */
+
+  function renderQueue() {
+    queueEl.innerHTML = "";
+
+    if (!processes.length) {
+      queueEl.appendChild(
+        makeEl(
+          "span",
+          "queue-empty",
+          "Click Allocate to see the process queue."
+        )
+      );
+      return;
+    }
+
+    processes.forEach(process => {
+      let state;
+      let status;
+
+      if (process.result === "allocated") {
+        state = "allocated";
+        status = `✓ Block ${process.blockId}`;
+      } else if (process.result === "failed") {
+        state = "failed";
+        status = "✗ Not allocated";
+      } else if (process.id === activeProcessId) {
+        state = "current";
+        status = "▶ Allocating...";
+      } else {
+        state = "waiting";
+        status = "⏳ Waiting";
+      }
+
+      const chip = makeEl("div", `queue-chip ${state}`);
+      chip.append(
+        makeEl("strong", "", `P${process.id}`),
+        makeEl("span", "", `${process.size} KB`),
+        makeEl("span", "", status)
+      );
+
+      queueEl.appendChild(chip);
     });
   }
 
@@ -229,7 +337,7 @@
   }
 
   /* -------------------------------------------------------
-     STEP TIMELINE
+     STEP TIMELINE (shows only the current process)
      ------------------------------------------------------- */
 
   function clearSteps() {
@@ -247,10 +355,6 @@
       item.classList.add("step-failed");
     }
 
-    if (state === "current") {
-      item.classList.add("step-current");
-    }
-
     stepsContainer
       .querySelectorAll(".step-current")
       .forEach(step => step.classList.remove("step-current"));
@@ -258,16 +362,30 @@
     stepsContainer.appendChild(item);
     item.classList.add("step-current");
 
-    // Keep the newest explanation visible.
-    item.scrollIntoView({
-      block: "nearest",
-      behavior: "smooth"
-    });
+    // Scroll only inside the steps box (does not move the page).
+    stepsContainer.scrollTop = stepsContainer.scrollHeight;
   }
 
-  function clearBlockHighlight() {
-    currentBlockId = null;
-    currentBlockState = "";
+  function showFinalSummary() {
+    clearSteps();
+    stepsHeadingEl.textContent = "Final Summary";
+
+    processes.forEach(process => {
+      if (process.result === "allocated") {
+        addStep(
+          `P${process.id} (${process.size} KB) → Block ${process.blockId}`
+        );
+      } else {
+        addStep(
+          `P${process.id} (${process.size} KB) → not allocated`,
+          "failed"
+        );
+      }
+    });
+
+    stepsContainer
+      .querySelectorAll(".step-current")
+      .forEach(step => step.classList.remove("step-current"));
   }
 
   /* -------------------------------------------------------
@@ -277,8 +395,7 @@
   async function checkBlock(block, process, token) {
     if (token !== runId) return false;
 
-    currentBlockId = block.id;
-    currentBlockState = "";
+    setHighlight(block.id, "", "CHECKING...");
 
     renderMemory();
 
@@ -292,8 +409,7 @@
     );
 
     addStep(
-      `Checking Block ${block.id}: ${block.size} KB for P${process.id} (${process.size} KB).`,
-      "current"
+      `Checking Block ${block.id}: ${block.size} KB for P${process.id} (${process.size} KB).`
     );
 
     await delay(650);
@@ -301,7 +417,7 @@
     if (token !== runId) return false;
 
     if (block.size >= process.size) {
-      currentBlockState = "success";
+      setHighlight(block.id, "success", "FITS ✓");
 
       updateProcess(
         process,
@@ -310,12 +426,9 @@
 
       updateStatus(`Block ${block.id} is suitable ✓`);
 
-      addStep(
-        `Block ${block.id}: ${block.size} KB is suitable.`,
-        "current"
-      );
+      addStep(`Block ${block.id}: ${block.size} KB is suitable.`);
     } else {
-      currentBlockState = "failed";
+      setHighlight(block.id, "failed", "TOO SMALL ✗");
 
       updateProcess(
         process,
@@ -351,6 +464,7 @@
 
       clearBlockHighlight();
       renderMemory();
+      renderQueue();
       updateStatistics();
 
       updateProcess(
@@ -376,11 +490,13 @@
     process.result = "allocated";
     process.blockId = block.id;
 
-    currentBlockId = block.id;
-    currentBlockState = "success";
+    setHighlight(block.id, "success", "ALLOCATED ✓");
 
     renderMemory();
+    renderQueue();
     updateStatistics();
+
+    const fragment = block.size - process.size;
 
     updateProcess(
       process,
@@ -392,8 +508,7 @@
     );
 
     addStep(
-      `P${process.id} (${process.size} KB) allocated to Block ${block.id}.`,
-      "current"
+      `P${process.id} (${process.size} KB) allocated to Block ${block.id} (${block.size} KB). Internal fragmentation = ${block.size} − ${process.size} = ${fragment} KB.`
     );
 
     await delay(800);
@@ -446,8 +561,7 @@
     }
 
     if (bestBlock) {
-      currentBlockId = bestBlock.id;
-      currentBlockState = "success";
+      setHighlight(bestBlock.id, "success", "BEST FIT ✓");
 
       renderMemory();
 
@@ -459,8 +573,7 @@
       updateStatus(`Best-Fit selected Block ${bestBlock.id}.`);
 
       addStep(
-        `Best-Fit selects Block ${bestBlock.id} (${bestBlock.size} KB).`,
-        "current"
+        `Best-Fit selects Block ${bestBlock.id} (${bestBlock.size} KB).`
       );
 
       await delay(500);
@@ -495,8 +608,7 @@
     }
 
     if (worstBlock) {
-      currentBlockId = worstBlock.id;
-      currentBlockState = "success";
+      setHighlight(worstBlock.id, "success", "WORST FIT ✓");
 
       renderMemory();
 
@@ -508,8 +620,7 @@
       updateStatus(`Worst-Fit selected Block ${worstBlock.id}.`);
 
       addStep(
-        `Worst-Fit selects Block ${worstBlock.id} (${worstBlock.size} KB).`,
-        "current"
+        `Worst-Fit selects Block ${worstBlock.id} (${worstBlock.size} KB).`
       );
 
       await delay(500);
@@ -543,17 +654,41 @@
 
     clearSteps();
     clearBlockHighlight();
+    activeProcessId = null;
 
     renderMemory();
+    renderQueue();
     updateStatistics();
 
     updateProcess(null, "Starting allocation...");
     updateStatus(`Running ${algorithmName()}...`);
 
-    addStep(`${algorithmName()} simulation started.`);
-
     try {
       for (const process of processes) {
+        if (token !== runId) return;
+
+        // New process: hide the earlier steps, show only this one.
+        activeProcessId = process.id;
+        clearBlockHighlight();
+        clearSteps();
+
+        stepsHeadingEl.textContent =
+          `Steps for P${process.id} (${process.size} KB)`;
+
+        renderMemory();
+        renderQueue();
+
+        updateProcess(
+          process,
+          `Searching for a suitable block using ${algorithmName()}...`
+        );
+
+        addStep(
+          `${algorithmName()}: finding a block for P${process.id} (${process.size} KB).`
+        );
+
+        await delay(500);
+
         if (token !== runId) return;
 
         let completed;
@@ -570,7 +705,10 @@
       }
 
       clearBlockHighlight();
+      activeProcessId = null;
+
       renderMemory();
+      renderQueue();
       updateStatistics();
 
       const allocated = processes.filter(
@@ -590,10 +728,7 @@
           : `${algorithmName()} complete. ${failed} process(es) could not be allocated.`
       );
 
-      addStep(
-        `Simulation complete: ${allocated} allocated, ${failed} not allocated.`,
-        failed ? "failed" : "normal"
-      );
+      showFinalSummary();
     } finally {
       if (token === runId) {
         running = false;
@@ -645,10 +780,11 @@
     }));
 
     processes = [];
+    activeProcessId = null;
     clearBlockHighlight();
     clearSteps();
 
-    stepsContainer.innerHTML = "";
+    stepsHeadingEl.textContent = "Simulation Steps";
 
     const item = document.createElement("li");
     item.className = "empty-step";
@@ -656,6 +792,7 @@
     stepsContainer.appendChild(item);
 
     renderMemory();
+    renderQueue();
     updateStatistics();
 
     currentProcessEl.textContent = "Ready to start";

@@ -421,193 +421,207 @@
         </div>
       </div>
 
+
+      
+
       <!-- Practice: Memory Allocation Simulator -->
       <div class="container" id="practice">
-        <div class="title">Practice</div>
+  <div class="title">Practice</div>
 
-        <div class="content">
-          <div class="memory-simulator" id="memorySimulator">
-            <!-- Simulator Header -->
-            <header class="sim-header">
-              <div class="sim-chip">▣</div>
-              <h2>Memory Allocation Simulator</h2>
-              <p>
-                Visualize how First-Fit, Best-Fit and Worst-Fit allocate
-                memory to processes.
-              </p>
-            </header>
+  <div class="content">
+    <div class="memory-simulator" id="memorySimulator">
+      <!-- Simulator Header -->
+      <header class="sim-header">
+        <div class="sim-chip">▣</div>
+        <h2>Memory Allocation Simulator</h2>
+        <p>
+          Visualize how First-Fit, Best-Fit and Worst-Fit allocate
+          memory to processes.
+        </p>
+      </header>
 
-            <!-- Algorithm Selection -->
-            <section class="sim-panel algorithm-panel">
-              <div class="panel-heading">
-                <span class="heading-icon">⚙</span>
-                <h3>1. Select Allocation Algorithm</h3>
-              </div>
+      <!-- Algorithm Selection -->
+      <section class="sim-panel algorithm-panel">
+        <div class="panel-heading">
+          <span class="heading-icon">⚙</span>
+          <h3>1. Select Allocation Algorithm</h3>
+        </div>
 
-              <div class="algorithm-buttons">
-                <button class="algorithm-btn active" data-algorithm="first" type="button">
-                  First-Fit
-                </button>
+        <div class="algorithm-buttons">
+          <button class="algorithm-btn active" data-algorithm="first" type="button">
+            First-Fit
+          </button>
 
-                <button class="algorithm-btn" data-algorithm="best" type="button">
-                  Best-Fit
-                </button>
+          <button class="algorithm-btn" data-algorithm="best" type="button">
+            Best-Fit
+          </button>
 
-                <button class="algorithm-btn" data-algorithm="worst" type="button">
-                  Worst-Fit
-                </button>
-              </div>
+          <button class="algorithm-btn" data-algorithm="worst" type="button">
+            Worst-Fit
+          </button>
+        </div>
 
-              <div class="sim-tip">
-                <span>💡</span>
-                <p>
-                  Try different inputs to see how allocation and fragmentation
-                  change!
-                </p>
-              </div>
-            </section>
+        <div class="sim-tip">
+          <span>💡</span>
+          <p>
+            Try different inputs to see how allocation and fragmentation
+            change!
+          </p>
+        </div>
+      </section>
 
-            <!-- Inputs Row -->
-            <section class="input-row">
-              <div class="sim-panel input-panel">
-                <label for="memoryInput">
-                  <span class="heading-icon">▤</span>
-                  2. Memory Blocks (in KB)
-                </label>
+      <!-- Inputs Row -->
+      <section class="input-row">
+        <div class="sim-panel input-panel">
+          <label for="memoryInput">
+            <span class="heading-icon">▤</span>
+            2. Memory Blocks (in KB)
+          </label>
 
-                <input type="text" id="memoryInput" value="100 500 200 300 600" placeholder="100 500 200 300 600"
-                  autocomplete="off" />
+          <input type="text" id="memoryInput" value="100 500 200 300 600" placeholder="100 500 200 300 600"
+            autocomplete="off" />
 
-                <small> Enter block sizes separated by spaces. </small>
-              </div>
+          <small> Enter block sizes separated by spaces. </small>
+        </div>
 
-              <div class="sim-panel input-panel">
-                <label for="processInput">
-                  <span class="heading-icon">⚙</span>
-                  3. Process Sizes (in KB)
-                </label>
+        <div class="sim-panel input-panel">
+          <label for="processInput">
+            <span class="heading-icon">⚙</span>
+            3. Process Sizes (in KB)
+          </label>
 
-                <input type="text" id="processInput" value="212 417 112 426" placeholder="212 417 112 426"
-                  autocomplete="off" />
+          <input type="text" id="processInput" value="212 417 112 426" placeholder="212 417 112 426"
+            autocomplete="off" />
 
-                <small> Enter process sizes separated by spaces. </small>
-              </div>
+          <small> Enter process sizes separated by spaces. </small>
+        </div>
 
-              <div class="sim-panel action-panel">
-                <button class="allocate-btn" id="allocateBtn" type="button">
-                  <span>▶</span> Allocate
-                </button>
+        <div class="sim-panel action-panel">
+          <button class="allocate-btn" id="allocateBtn" type="button">
+            <span>▶</span> Allocate
+          </button>
 
-                <button class="reset-btn" id="resetBtn" type="button">
-                  <span>↻</span> Reset
-                </button>
-              </div>
-            </section>
+          <button class="reset-btn" id="resetBtn" type="button">
+            <span>↻</span> Reset
+          </button>
+        </div>
+      </section>
 
-            <!-- Visualization + Process Steps -->
-            <section class="visual-row">
-              <!-- Memory Visualization -->
-              <div class="sim-panel memory-panel">
-                <div class="section-heading">
-                  <div class="panel-heading">
-                    <span class="heading-icon memory-icon">▱</span>
-                    <h3>4. Memory Blocks Visualization</h3>
-                  </div>
+      <!-- Visualization + Process Steps -->
+      <section class="visual-row">
+        <!-- Memory Visualization -->
+        <div class="sim-panel memory-panel">
+          <div class="section-heading">
+            <div class="panel-heading">
+              <span class="heading-icon memory-icon">▱</span>
+              <h3>4. Memory Blocks Visualization</h3>
+            </div>
 
-                  <div class="memory-legend">
-                    <span><i class="legend allocated-legend"></i> Allocated</span>
-                    <span><i class="legend free-legend"></i> Free</span>
-                    <span><i class="legend checking-legend"></i> Checking</span>
-                  </div>
-                </div>
+            <div class="memory-legend">
+              <span><i class="legend free-legend"></i> Free</span>
+              <span><i class="legend checking-legend"></i> Checking</span>
+              <span><i class="legend new-legend"></i> Newly allocated</span>
+              <span><i class="legend allocated-legend"></i> Earlier allocated</span>
+              <span><i class="legend frag-legend"></i> Internal fragmentation</span>
+            </div>
+          </div>
 
-                <div id="memoryBlocks" class="memory-blocks">
-                  <!-- Memory blocks generated by JavaScript -->
-                </div>
+          <div id="memoryBlocks" class="memory-blocks">
+            <!-- Memory blocks generated by JavaScript -->
+          </div>
 
-                <div class="memory-axis">
-                  <span>Memory block sizes (KB)</span>
-                </div>
-              </div>
-
-              <!-- Current Process and Simulation Steps -->
-              <div class="sim-panel process-panel">
-                <div class="panel-heading">
-                  <span class="heading-icon">▶</span>
-                  <h3>5. Current Process &amp; Simulation Steps</h3>
-                </div>
-
-                <div class="current-process-card">
-                  <span class="card-label">Current Process</span>
-
-                  <strong id="currentProcess">Ready to start</strong>
-
-                  <div class="process-status" id="processStatus">
-                    Waiting for simulation
-                  </div>
-                </div>
-
-                <div class="steps-card">
-                  <div class="steps-heading">Simulation Steps</div>
-
-                  <ol id="simulationSteps" class="simulation-steps">
-                    <li class="empty-step">
-                      Click Allocate to begin the simulation.
-                    </li>
-                  </ol>
-                </div>
-
-                <div class="simulation-status" id="simulationStatus" aria-live="polite">
-                  Ready to simulate
-                </div>
-              </div>
-            </section>
-
-            <!-- Statistics: Full Width -->
-            <section class="sim-panel statistics-panel">
-              <div class="panel-heading">
-                <span class="heading-icon stats-icon">▥</span>
-                <h3>6. Memory Statistics</h3>
-              </div>
-
-              <div class="statistics-grid">
-                <div class="stat-card stat-total">
-                  <span class="stat-icon">▤</span>
-                  <div>
-                    <span class="stat-label">Total Memory</span>
-                    <strong id="totalMemory">1700 KB</strong>
-                  </div>
-                </div>
-
-                <div class="stat-card stat-used">
-                  <span class="stat-icon">◕</span>
-                  <div>
-                    <span class="stat-label">Used Memory</span>
-                    <strong id="usedMemory">0 KB</strong>
-                  </div>
-                </div>
-
-                <div class="stat-card stat-free">
-                  <span class="stat-icon">▦</span>
-                  <div>
-                    <span class="stat-label">Free Memory</span>
-                    <strong id="freeMemory">1700 KB</strong>
-                  </div>
-                </div>
-
-                <div class="stat-card stat-fragmentation">
-                  <span class="stat-icon">▤</span>
-                  <div>
-                    <span class="stat-label">Internal Fragmentation</span>
-                    <strong id="internalFragmentation">0 KB</strong>
-                  </div>
-                </div>
-              </div>
-            </section>
+          <div class="memory-axis">
+            <span>Memory block sizes (KB) &mdash; size written at the top of each block is the initial partition size</span>
           </div>
         </div>
-      </div>
+
+        <!-- Current Process, Queue and Steps -->
+        <div class="sim-panel process-panel">
+          <div class="panel-heading">
+            <span class="heading-icon">▶</span>
+            <h3>5. Current Process &amp; Simulation Steps</h3>
+          </div>
+
+          <div class="current-process-card">
+            <span class="card-label">Current Process</span>
+
+            <strong id="currentProcess">Ready to start</strong>
+
+            <div class="process-status" id="processStatus">
+              Waiting for simulation
+            </div>
+          </div>
+
+          <div class="queue-card">
+            <div class="steps-heading">Process Queue</div>
+            <div id="processQueue" class="process-queue">
+              <span class="queue-empty">Click Allocate to see the process queue.</span>
+            </div>
+          </div>
+
+          <div class="steps-card">
+            <div class="steps-heading" id="stepsHeading">Simulation Steps</div>
+
+            <ol id="simulationSteps" class="simulation-steps">
+              <li class="empty-step">
+                Click Allocate to begin the simulation.
+              </li>
+            </ol>
+          </div>
+
+          <div class="simulation-status" id="simulationStatus" aria-live="polite">
+            Ready to simulate
+          </div>
+        </div>
+      </section>
+
+      <!-- Statistics: Full Width -->
+      <section class="sim-panel statistics-panel">
+        <div class="panel-heading">
+          <span class="heading-icon stats-icon">▥</span>
+          <h3>6. Memory Statistics</h3>
+        </div>
+
+        <div class="statistics-grid">
+          <div class="stat-card stat-total">
+            <span class="stat-icon">▤</span>
+            <div>
+              <span class="stat-label">Total Memory</span>
+              <strong id="totalMemory">1700 KB</strong>
+            </div>
+          </div>
+
+          <div class="stat-card stat-used">
+            <span class="stat-icon">◕</span>
+            <div>
+              <span class="stat-label">Used Memory</span>
+              <strong id="usedMemory">0 KB</strong>
+            </div>
+          </div>
+
+          <div class="stat-card stat-free">
+            <span class="stat-icon">▦</span>
+            <div>
+              <span class="stat-label">Free Memory</span>
+              <strong id="freeMemory">1700 KB</strong>
+            </div>
+          </div>
+
+          <div class="stat-card stat-fragmentation">
+            <span class="stat-icon">▤</span>
+            <div>
+              <span class="stat-label">Internal Fragmentation</span>
+              <strong id="internalFragmentation">0 KB</strong>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
       <!-- End Memory Allocation Simulator -->
+
+
 
       <!-- Code -->
       <div class="container" id="code">

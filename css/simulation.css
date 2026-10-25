@@ -1,6 +1,6 @@
 /* =====================================================
    MEMORY ALLOCATION SIMULATOR
-   Light theme | Existing functionality preserved
+   Light theme | Updated as per mam's feedback
    ===================================================== */
 
 #practice {
@@ -128,17 +128,17 @@
 }
 
 #practice .algorithm-btn {
-    flex: 1;
-    min-width: 0;
-    padding: 12px 8px;
-    border: 1px solid #c5dcff;
-    border-radius: 9px;
-    background: #f5f9ff;
-    color: #14275a;
-    font-weight: 800;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: 0.2s ease;
+  flex: 1;
+  min-width: 0;
+  padding: 12px 8px;
+  border: 1px solid #c5dcff;
+  border-radius: 9px;
+  background: #f5f9ff;
+  color: #14275a;
+  font-weight: 800;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.2s ease;
 }
 
 #practice .algorithm-btn:hover:not(:disabled) {
@@ -224,7 +224,7 @@
 #practice .input-panel small {
   display: block;
   margin-top: 8px;
-   color: #334155;
+  color: #334155;
   font-size: 0.9rem;
   font-weight: 600;
   line-height: 1.6;
@@ -291,6 +291,12 @@
   min-width: 0;
 }
 
+#practice .memory-panel {
+  height: fit-content;
+  min-height: 0;
+  align-self: start;
+}
+
 #practice .section-heading {
   display: flex;
   align-items: center;
@@ -299,6 +305,8 @@
   gap: 12px;
   margin-bottom: 17px;
 }
+
+/* Legend */
 
 #practice .memory-legend {
   display: flex;
@@ -321,21 +329,36 @@
   border-radius: 3px;
 }
 
-#practice .allocated-legend {
-  background: #c8b5ff;
-  border: 1px solid #9567f3;
-}
-
 #practice .free-legend {
   background: #ffe79a;
   border: 1px solid #efc943;
 }
 
 #practice .checking-legend {
+  background: #ffe2a0;
   border: 2px dashed #e99a15;
 }
 
-/* Memory blocks */
+#practice .new-legend {
+  background: #a9efd4;
+  border: 1px solid #00a980;
+}
+
+#practice .allocated-legend {
+  background: #c8b5ff;
+  border: 1px solid #9567f3;
+}
+
+#practice .frag-legend {
+  background: repeating-linear-gradient(
+    45deg, #f4b6bd 0 3px, #fde3e6 3px 6px
+  );
+  border: 1px dashed #d1495b;
+}
+
+/* -----------------------------------------------------
+   Memory blocks
+   ----------------------------------------------------- */
 
 #practice .memory-blocks {
   display: flex;
@@ -343,8 +366,10 @@
   gap: 5px;
   width: 100%;
   min-width: 0;
-  min-height: 235px;
-  padding: 0;
+  height: clamp(300px, 30vw, 380px);
+  min-height: 300px;
+  /* padding leaves room for the glow of the block being checked */
+  padding: 8px 6px;
   overflow-x: auto;
   overflow-y: hidden;
   background: transparent;
@@ -354,7 +379,8 @@
   position: relative;
   flex: 1 1 0;
   min-width: 72px;
-  min-height: 225px;
+  height: 100%;
+  min-height: 260px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -368,72 +394,220 @@
     transform 0.2s ease;
 }
 
+/* Free block */
 #practice .memory-block.free {
   background: linear-gradient(180deg, #fff1b8, #ffe58a);
   border-color: #f2d05c;
 }
 
+/* Earlier allocated block (purple) */
 #practice .memory-block.allocated {
   background: linear-gradient(180deg, #e1d5ff, #cbb6ff);
   border-color: #a98af5;
 }
 
+/* Block allocated to the CURRENT process (green) */
+#practice .memory-block.allocated.just-allocated {
+  background: linear-gradient(180deg, #d6faee, #8fe6c8);
+  border-color: #00a980;
+  box-shadow: 0 0 0 3px rgba(0, 169, 128, 0.2);
+}
+
+/* Block being checked */
 #practice .memory-block.checking {
   z-index: 2;
   transform: translateY(-3px);
+  border-style: dashed;
   border-color: #e99a15;
   box-shadow: 0 0 0 3px rgba(233, 154, 21, 0.17);
+  animation: simPulse 0.9s ease-in-out infinite;
 }
 
+/* Too small */
 #practice .memory-block.failed {
+  border-style: solid;
   border-color: #e45c6b;
   box-shadow: 0 0 0 2px rgba(228, 92, 107, 0.14);
+  animation: none;
 }
 
+/* Suitable / selected / allocated */
 #practice .memory-block.success {
+  border-style: solid;
   border-color: #00a980;
   box-shadow: 0 0 0 3px rgba(0, 169, 128, 0.14);
+  animation: none;
 }
+
+/* Background of a FREE block while it is being checked */
+#practice .memory-block.free.checking {
+  background: linear-gradient(180deg, #fff4d6, #ffd98a);
+}
+
+#practice .memory-block.free.checking.failed {
+  background: linear-gradient(180deg, #ffe6e9, #ffc4cb);
+}
+
+#practice .memory-block.free.checking.success {
+  background: linear-gradient(180deg, #def9ef, #aeeed5);
+}
+
+@keyframes simPulse {
+  0%, 100% { box-shadow: 0 0 0 2px rgba(233, 154, 21, 0.2); }
+  50%      { box-shadow: 0 0 0 7px rgba(233, 154, 21, 0.38); }
+}
+
+/* Header: block number + INITIAL size */
 
 #practice .memory-block-header {
   flex-shrink: 0;
-  padding: 10px 4px;
+  padding: 8px 3px 7px;
   background: rgba(255, 255, 255, 0.38);
   text-align: center;
-  font-size: 0.8rem;
-  font-weight: 800;
-  white-space: nowrap;
+  line-height: 1.25;
 }
 
-#practice .memory-block-content {
+#practice .block-title {
+  font-size: 0.76rem;
+  font-weight: 800;
+}
+
+#practice .block-size {
+  margin-top: 3px;
+  color: #14275a;
+  font-size: 0.98rem;
+  font-weight: 900;
+}
+
+#practice .block-caption {
+  color: #52678f;
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+/* Status tag: CHECKING / TOO SMALL / FITS / ALLOCATED */
+
+#practice .block-tag {
+  flex-shrink: 0;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  visibility: hidden;
+}
+
+#practice .memory-block.checking .block-tag {
+  visibility: visible;
+  background: #e99a15;
+  color: #ffffff;
+}
+
+#practice .memory-block.checking.failed .block-tag {
+  background: #e45c6b;
+}
+
+#practice .memory-block.checking.success .block-tag {
+  background: #00a980;
+}
+
+/* Body */
+
+#practice .memory-block-body {
   flex: 1;
-  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 6px 4px;
+  text-align: center;
+}
+
+/* Free block text */
+
+#practice .block-free {
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 8px 4px;
-  text-align: center;
+  gap: 4px;
+}
+
+#practice .block-free strong {
+  font-size: 1.05rem;
+}
+
+#practice .block-free span {
+  color: #6b5a1f;
+  font-size: 0.74rem;
+}
+
+/* Part of the block used by the process */
+
+#practice .block-used {
+  flex: 1 1 0;
+  min-height: 64px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 2px;
+  border: 1px solid rgba(23, 38, 76, 0.18);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.58);
   overflow-wrap: anywhere;
 }
 
-#practice .memory-block-content strong {
-  font-size: clamp(0.8rem, 1.2vw, 1.15rem);
-  line-height: 1.4;
+#practice .block-used strong {
+  font-size: 1.05rem;
 }
 
-#practice .memory-block-content span {
-  display: block;
-  max-width: 100%;
-  margin-top: 7px;
-  font-size: clamp(0.68rem, 0.85vw, 0.8rem);
-  line-height: 1.4;
+#practice .block-used span {
+  font-size: 0.72rem;
 }
 
-#practice .memory-block-content .fragmentation-label {
-  padding-top: 8px;
-  border-top: 1px solid rgba(67, 55, 120, 0.2);
+/* Internal fragmentation part (hatched) */
+
+#practice .block-frag {
+  flex: 1 1 0;
+  min-height: 56px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 2px;
+  border: 1px dashed #d1495b;
+  border-radius: 6px;
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(228, 92, 107, 0.24) 0 6px,
+    rgba(228, 92, 107, 0.1) 6px 12px
+  );
+  color: #8f1d2c;
+  overflow-wrap: anywhere;
+}
+
+#practice .block-frag.none {
+  border-color: rgba(23, 38, 76, 0.2);
+  background: rgba(255, 255, 255, 0.35);
+  color: #43577f;
+}
+
+#practice .block-frag-label {
+  font-size: 0.64rem;
   font-weight: 700;
+  line-height: 1.25;
+}
+
+#practice .block-frag-value {
+  font-size: 0.9rem;
+  font-weight: 900;
 }
 
 /* Memory axis */
@@ -447,7 +621,9 @@
   font-size: 0.82rem;
 }
 
-/* Current process */
+/* -----------------------------------------------------
+   Current process, queue, steps
+   ----------------------------------------------------- */
 
 #practice .process-panel>.panel-heading {
   margin-bottom: 13px;
@@ -482,6 +658,78 @@
   text-align: center;
   line-height: 1.5;
 }
+
+/* Process queue */
+
+#practice .queue-card {
+  margin-bottom: 10px;
+  padding: 12px;
+  border: 1px solid #c9ddf8;
+  border-radius: 12px;
+  background: #f8fbff;
+}
+
+#practice .process-queue {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+#practice .queue-empty {
+  color: #52678f;
+  font-size: 0.78rem;
+}
+
+#practice .queue-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 78px;
+  padding: 6px 9px;
+  border: 2px solid;
+  border-radius: 10px;
+  font-size: 0.72rem;
+  line-height: 1.35;
+  text-align: center;
+}
+
+#practice .queue-chip strong {
+  font-size: 0.92rem;
+}
+
+/* Waiting */
+#practice .queue-chip.waiting {
+  background: #fff8df;
+  border-color: #f0d36b;
+  color: #7a5a00;
+}
+
+/* Being allocated now */
+#practice .queue-chip.current {
+  background: #e3efff;
+  border-color: #267cf4;
+  color: #0f3f91;
+  animation: simPulseBlue 1s ease-in-out infinite;
+}
+
+#practice .queue-chip.allocated {
+  background: #e3fbf4;
+  border-color: #00a980;
+  color: #006c51;
+}
+
+#practice .queue-chip.failed {
+  background: #ffe9ec;
+  border-color: #e45c6b;
+  color: #a1232f;
+}
+
+@keyframes simPulseBlue {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(38, 124, 244, 0.25); }
+  50%      { box-shadow: 0 0 0 5px rgba(38, 124, 244, 0.3); }
+}
+
+/* Steps */
 
 #practice .steps-card {
   padding: 12px;
@@ -565,7 +813,9 @@
   line-height: 1.5;
 }
 
-/* Statistics */
+/* -----------------------------------------------------
+   Statistics
+   ----------------------------------------------------- */
 
 #practice .statistics-panel {
   width: 100%;
@@ -657,7 +907,9 @@
   color: #8145d5;
 }
 
-/* Responsive layout */
+/* -----------------------------------------------------
+   Responsive layout
+   ----------------------------------------------------- */
 
 @media (max-width: 1050px) {
   #practice .algorithm-panel {
@@ -691,11 +943,12 @@
   }
 
   #practice .memory-blocks {
-    min-height: 200px;
+    height: 320px;
+    min-height: 320px;
   }
 
   #practice .memory-block {
-    min-height: 190px;
+    min-height: 270px;
   }
 }
 
@@ -720,10 +973,10 @@
     flex-direction: column;
   }
 
- #practice .algorithm-btn {
-        width: 100%;
-        font-size: 1.1rem;
-    }
+  #practice .algorithm-btn {
+    width: 100%;
+    font-size: 1.1rem;
+  }
 
   #practice .section-heading {
     align-items: flex-start;
@@ -731,16 +984,13 @@
   }
 
   #practice .memory-blocks {
-    min-height: 180px;
+    height: 310px;
+    min-height: 310px;
   }
 
   #practice .memory-block {
-    min-width: 65px;
-    min-height: 170px;
-  }
-
-  #practice .memory-block-header {
-    font-size: 0.7rem;
+    min-width: 70px;
+    min-height: 260px;
   }
 
   #practice .statistics-grid {
@@ -749,52 +999,5 @@
 
   #practice .stat-card {
     justify-content: flex-start;
-  }
-}
-
-/* Keep memory panel and blocks balanced */
-
-#practice .memory-panel {
-  height: fit-content;
-  min-height: 0;
-  align-self: start;
-}
-
-#practice .memory-blocks {
-  height: clamp(260px, 30vw, 360px);
-  min-height: 260px;
-  align-items: stretch;
-  overflow-x: auto;
-  overflow-y: hidden;
-}
-
-#practice .memory-block {
-  height: 100%;
-  min-height: 260px;
-}
-
-#practice .memory-block-content {
-  justify-content: center;
-}
-
-@media (max-width: 760px) {
-  #practice .memory-blocks {
-    height: 280px;
-    min-height: 280px;
-  }
-
-  #practice .memory-block {
-    min-height: 280px;
-  }
-}
-
-@media (max-width: 520px) {
-  #practice .memory-blocks {
-    height: 230px;
-    min-height: 230px;
-  }
-
-  #practice .memory-block {
-    min-height: 230px;
   }
 }
